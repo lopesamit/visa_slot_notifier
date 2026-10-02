@@ -54,7 +54,7 @@ The canonical lists and the slot key live in `shared/`.
 | Hosting and API | Netlify (static site + Functions) |
 | Database | MongoDB Atlas |
 | Notifications | Telegram Bot API |
-| Donations | [Ko-fi](https://ko-fi.com/visasolthelper). A gift only; it unlocks nothing. |
+| Donations | [Ko-fi](https://ko-fi.com/visasolthelper). A gift only; it unlocks nothing. Hidden for now; turn on with `DONATIONS_ENABLED` in `shared/src/site.ts`. |
 
 ## Local setup
 

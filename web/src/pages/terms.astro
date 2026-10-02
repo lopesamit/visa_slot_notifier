@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { showDonate } from "../site";
 ---
 
 <Base
@@ -24,8 +25,9 @@ import Base from "../layouts/Base.astro";
         reschedule, or cancel appointments. Do not send those credentials to us.
       </p>
       <p>
-        Alerts are free for everyone. A donation through Ko-fi is voluntary and does
-        not buy faster alerts, extra posts, or a private feed.
+        Alerts are free for everyone. There are no paid alerts, extra posts, or
+        private feeds.
+        {showDonate && " A donation through Ko-fi is voluntary and does not buy any of these."}
       </p>
       <p>
         Appointment availability changes quickly. We do not guarantee that a reported

@@ -1,6 +1,7 @@
 import {
   APPOINTMENT_KINDS,
   BOT_USERNAME,
+  DONATIONS_ENABLED,
   KOFI_URL,
   POSTS,
   VISA_CLASSES,
@@ -19,7 +20,11 @@ import "./style.css";
 
 const app = document.getElementById("app")!;
 const stateLabel = document.getElementById("state")!;
-document.getElementById("kofi")!.setAttribute("href", KOFI_URL);
+if (DONATIONS_ENABLED) {
+  const kofi = document.getElementById("kofi")!;
+  kofi.setAttribute("href", KOFI_URL);
+  kofi.hidden = false;
+}
 
 const POLL_MS = 2000;
 const POLL_LIMIT_MS = 2 * 60 * 1000;

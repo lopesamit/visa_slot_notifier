@@ -1,5 +1,6 @@
 import {
   APPOINTMENT_KINDS,
+  DONATIONS_ENABLED,
   POSTS,
   SITE_URL,
   VISA_CLASSES,
@@ -109,7 +110,9 @@ export const helpText = () =>
     "/pause and /resume turn alerts off and on",
     "/stop delete your filters",
     "",
-    `Alerts are free. Donations never unlock anything: ${SITE_URL}`,
+    DONATIONS_ENABLED
+      ? `Alerts are free. Donations never unlock anything: ${SITE_URL}`
+      : `Alerts are free: ${SITE_URL}`,
   ].join("\n");
 
 export const datesUsageText = () =>

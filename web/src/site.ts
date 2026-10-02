@@ -9,4 +9,6 @@ export const kofiUrl =
     ? configured
     : "https://ko-fi.com/visasolthelper";
 
+export { DONATIONS_ENABLED as showDonate } from "@visa-slot/shared";
+
 export const siteName = "Visa Slot Notifier";

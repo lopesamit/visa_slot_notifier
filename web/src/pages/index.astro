@@ -5,12 +5,12 @@ import {
   VISA_CLASSES,
 } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
-import { kofiUrl, siteName } from "../site";
+import { kofiUrl, showDonate, siteName } from "../site";
 ---
 
 <Base
   title={siteName}
-  description="Free Telegram alerts when a U.S. visa appointment date is reported. Donations on Ko-fi never unlock a feature."
+  description="Free Telegram alerts when a U.S. visa appointment date is reported. There is no paid tier."
 >
   <main>
     <section class="hero">
@@ -18,14 +18,18 @@ import { kofiUrl, siteName } from "../site";
         <h1>Visa slots, reported by people who can already see them.</h1>
         <p class="lede">
           When someone on the official U.S. scheduling site sees an opening, matching
-          people get one Telegram message. Alerts are free. A donation does not change
-          what you receive.
+          people get one Telegram message. Alerts are free.
+          {showDonate && " A donation does not change what you receive."}
         </p>
         <div class="actions">
           <a class="button" href="/how-it-works">How it works</a>
-          <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
-            Donate on Ko-fi
-          </a>
+          {
+            showDonate && (
+              <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
+                Donate on Ko-fi
+              </a>
+            )
+          }
         </div>
       </div>
     </section>
@@ -67,17 +71,21 @@ import { kofiUrl, siteName } from "../site";
       </div>
     </section>
 
-    <section class="section">
-      <div class="wrap donate-band">
-        <h2>Keep it free</h2>
-        <p>
-          Ko-fi is only a way to say thanks. Donating does not turn alerts on, speed
-          them up, or hide them from anyone else.
-        </p>
-        <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
-          Donate on Ko-fi
-        </a>
-      </div>
-    </section>
+    {
+      showDonate && (
+        <section class="section">
+          <div class="wrap donate-band">
+            <h2>Keep it free</h2>
+            <p>
+              Ko-fi is only a way to say thanks. Donating does not turn alerts on, speed
+              them up, or hide them from anyone else.
+            </p>
+            <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
+              Donate on Ko-fi
+            </a>
+          </div>
+        </section>
+      )
+    }
   </main>
 </Base>
