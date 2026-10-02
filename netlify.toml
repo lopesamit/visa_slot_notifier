@@ -4,6 +4,8 @@ publish = "web/dist"
 
 [build.environment]
 NODE_VERSION = "20"
+# The database name is also the default in code; it is not a secret.
+SECRETS_SCAN_OMIT_KEYS = "MONGODB_DB"
 
 [functions]
 directory = "api/functions"
