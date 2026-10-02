@@ -1,0 +1,35 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="How it works"
+  description="How a visa appointment opening becomes one free Telegram message."
+>
+  <main class="section prose">
+    <div class="wrap">
+      <h1>How it works</h1>
+      <p>
+        The Chrome extension is the next piece we are building. This page is the
+        product it will serve.
+      </p>
+      <ol class="steps">
+        <li>You install the extension and choose a post, a visa class, and OFC or consular.</li>
+        <li>You connect Telegram. The bot can message that chat, and nothing else.</li>
+        <li>
+          Someone who is already on the official scheduling site sees a date. The
+          extension reports that date. It does not click, type, or book.
+        </li>
+        <li>
+          If several people see the same opening, it is still one alert. Everyone
+          whose filters match receives that message once.
+        </li>
+        <li>You open the official site and book it yourself, if the date is still there.</li>
+      </ol>
+      <p>
+        A slot can disappear before you arrive. The message means the date was seen,
+        not that it is being held.
+      </p>
+    </div>
+  </main>
+</Base>

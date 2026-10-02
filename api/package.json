@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "db:check": "tsx --env-file=../.env scripts/db-check.ts",
+    "db:indexes": "tsx --env-file=../.env scripts/indexes.ts",
+    "bot:poll": "tsx --env-file=../.env scripts/bot-poll.ts",
+    "bot:webhook": "tsx --env-file=../.env scripts/bot-webhook.ts",
+    "report:simulate": "tsx --env-file=../.env scripts/simulate-report.ts"
+  },
+  "dependencies": {
+    "@visa-slot/shared": "*",
+    "mongodb": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "mongodb-memory-server": "^10.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "visa-slot-notifier",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "shared",
+    "web",
+    "api"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "deploy": "npm run build -w web && npx -y netlify-cli@latest deploy --prod --filter api --dir \"$PWD/web/dist\" --functions \"$PWD/api/functions\""
+  }
+}

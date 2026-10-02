@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.output/
+.wxt/
+.astro/
+.netlify/
+.env
+.env.*
+*.env
+!.env.example
+.DS_Store
+coverage/

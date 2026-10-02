@@ -1,0 +1,83 @@
+---
+import {
+  APPOINTMENT_KINDS,
+  POSTS,
+  VISA_CLASSES,
+} from "@visa-slot/shared";
+import Base from "../layouts/Base.astro";
+import { kofiUrl, siteName } from "../site";
+---
+
+<Base
+  title={siteName}
+  description="Free Telegram alerts when a U.S. visa appointment date is reported. Donations on Ko-fi never unlock a feature."
+>
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1>Visa slots, reported by people who can already see them.</h1>
+        <p class="lede">
+          When someone on the official U.S. scheduling site sees an opening, matching
+          people get one Telegram message. Alerts are free. A donation does not change
+          what you receive.
+        </p>
+        <div class="actions">
+          <a class="button" href="/how-it-works">How it works</a>
+          <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
+            Donate on Ko-fi
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <ul class="facts">
+          <li>
+            <strong>Free Telegram alerts</strong>
+            <span>Every match is sent immediately. There is no paid tier.</span>
+          </li>
+          <li>
+            <strong>One message per opening</strong>
+            <span>Many people can see the same date. You still get a single alert.</span>
+          </li>
+          <li>
+            <strong>You book it yourself</strong>
+            <span>We never take a visa-site password, and we never book for you.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2>What version 1 watches</h2>
+        <p>Posts</p>
+        <ul class="chips">
+          {POSTS.map((post) => <li>{post.label}</li>)}
+        </ul>
+        <p>Visa classes</p>
+        <ul class="chips">
+          {VISA_CLASSES.map((visa) => <li>{visa.label}</li>)}
+        </ul>
+        <p>Appointment kinds</p>
+        <ul class="chips">
+          {APPOINTMENT_KINDS.map((kind) => <li>{kind.label}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap donate-band">
+        <h2>Keep it free</h2>
+        <p>
+          Ko-fi is only a way to say thanks. Donating does not turn alerts on, speed
+          them up, or hide them from anyone else.
+        </p>
+        <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
+          Donate on Ko-fi
+        </a>
+      </div>
+    </section>
+  </main>
+</Base>
