@@ -1,4 +1,5 @@
 import { defineConfig } from "wxt";
+import { DEV_SCHEDULER_MATCHES } from "./src/scheduler";
 
 const LOCAL_API = "http://localhost:8787";
 const LIVE_API = "https://freevisaslotnotifier.com";
@@ -17,4 +18,12 @@ export default defineConfig({
       __API_BASE__: JSON.stringify(mode === "development" ? LOCAL_API : LIVE_API),
     },
   }),
+  hooks: {
+    "build:manifestGenerated": (wxt, manifest) => {
+      if (wxt.config.mode !== "development") return;
+      for (const script of manifest.content_scripts ?? []) {
+        script.matches = [...(script.matches ?? []), ...DEV_SCHEDULER_MATCHES];
+      }
+    },
+  },
 });

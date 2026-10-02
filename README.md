@@ -107,6 +107,24 @@ Load `extension/.output/chrome-mv3-dev` in `chrome://extensions` (Developer
 mode, Load unpacked). `npm run build -w extension` builds the store version,
 which talks to `https://freevisaslotnotifier.com`.
 
+### Slot reporter
+
+On `https://www.usvisascheduling.com`, the extension reads the calendar data
+the site already loads for its OFC and consular calendars (routes ending in
+`schedule-days`). It never clicks, types, or sends its own requests to the site.
+It sends only post, visa class (chosen in the popup, since the page does not
+show it), OFC or consular, and up to 10 dates. The same calendar is not sent
+again for 10 minutes.
+
+To try it without an account, the local API serves a mock scheduler:
+`http://localhost:8787/dev/ofc-schedule` (loads days with fetch) and
+`http://localhost:8787/dev/schedule` (with XHR). Its dates are in August 2028.
+Delete them afterwards with:
+
+```sh
+npm run dev:cleanup -w api
+```
+
 ## Report endpoint
 
 The extension sends `POST /api/report`:

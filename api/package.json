@@ -10,6 +10,7 @@
     "bot:poll": "tsx --env-file=../.env scripts/bot-poll.ts",
     "bot:webhook": "tsx --env-file=../.env scripts/bot-webhook.ts",
     "report:simulate": "tsx --env-file=../.env scripts/simulate-report.ts",
+    "dev:cleanup": "tsx --env-file=../.env scripts/dev-cleanup.ts",
     "serve": "tsx watch --env-file=../.env scripts/serve.ts"
   },
   "dependencies": {

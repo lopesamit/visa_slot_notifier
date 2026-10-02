@@ -26,6 +26,10 @@ export type AppointmentKind = (typeof APPOINTMENT_KINDS)[number]["id"];
 /** A slot seen again within this window is the same wave: no second alert. */
 export const WAVE_MS = 12 * 60 * 60 * 1000;
 
+export const MAX_DATES_PER_REPORT = 10;
+/** Dates further out than this are not real scheduler openings. */
+export const MAX_DAYS_AHEAD = 730;
+
 const postIds = new Set<string>(POSTS.map((p) => p.id));
 const visaIds = new Set<string>(VISA_CLASSES.map((v) => v.id));
 const kindIds = new Set<string>(APPOINTMENT_KINDS.map((k) => k.id));

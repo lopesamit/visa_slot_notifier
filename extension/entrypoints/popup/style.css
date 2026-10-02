@@ -180,6 +180,32 @@ legend {
   font-size: 12px;
 }
 
+.reporter {
+  padding: 10px 14px 4px;
+  border-top: 1px solid var(--line);
+}
+
+.small {
+  margin: 6px 0;
+  font-size: 12px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.field select {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fffdf8;
+  font: inherit;
+}
+
 .foot {
   border-top: 1px solid var(--line);
   color: var(--muted);

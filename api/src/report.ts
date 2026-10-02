@@ -1,13 +1,11 @@
 import type { Db } from "mongodb";
-import { parseSlot, type Slot } from "@visa-slot/shared";
+import { MAX_DATES_PER_REPORT, MAX_DAYS_AHEAD, parseSlot, type Slot } from "@visa-slot/shared";
 import { sendSlotAlerts, type FanOutResult } from "./alerts";
 import { hitLimit } from "./limits";
 import { recordSighting } from "./slots";
 import type { TelegramApi } from "./telegram/client";
 
-export const MAX_DATES_PER_REPORT = 10;
-/** Dates further out than this are not real scheduler openings. */
-const MAX_DAYS_AHEAD = 730;
+export { MAX_DATES_PER_REPORT };
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 export const LIMITS = {

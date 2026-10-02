@@ -14,6 +14,7 @@ import {
   type Filters,
 } from "../../src/api";
 import { getIdentity } from "../../src/identity";
+import { renderReporter } from "./reporter";
 import "./style.css";
 
 const app = document.getElementById("app")!;
@@ -201,3 +202,4 @@ function showSettings(filters: Filters) {
 }
 
 load();
+renderReporter(document.getElementById("reporter")!);

@@ -11,7 +11,14 @@ export type Filters = {
 
 export type Subscription = { connected: false } | ({ connected: true } & Filters);
 
-export class ApiError extends Error {}
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status = 0,
+  ) {
+    super(message);
+  }
+}
 
 async function post<T>(path: string, body: unknown): Promise<T> {
   let response: Response;
@@ -25,9 +32,22 @@ async function post<T>(path: string, body: unknown): Promise<T> {
     throw new ApiError("Could not reach the server. Check your connection.");
   }
   const data = (await response.json().catch(() => ({}))) as T & { error?: string };
-  if (!response.ok) throw new ApiError(data.error ?? `Server error (${response.status})`);
+  if (!response.ok) {
+    throw new ApiError(data.error ?? `Server error (${response.status})`, response.status);
+  }
   return data;
 }
+
+export type SlotReport = {
+  installId: string;
+  post: PostId;
+  visaClass: VisaClassId;
+  kind: AppointmentKind;
+  dates: string[];
+};
+
+export const sendReport = (report: SlotReport) =>
+  post<{ ok: true; newSlots: number }>("/api/report", report);
 
 export const fetchSubscription = (linkKey: string) =>
   post<Subscription>("/api/subscription", { action: "status", linkKey });
