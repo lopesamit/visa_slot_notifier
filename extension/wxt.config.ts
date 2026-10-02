@@ -18,6 +18,9 @@ export default defineConfig({
       __API_BASE__: JSON.stringify(mode === "development" ? LOCAL_API : LIVE_API),
     },
   }),
+  zip: {
+    artifactTemplate: "visa-slot-notifier-{{version}}-{{browser}}.zip",
+  },
   hooks: {
     "build:manifestGenerated": (wxt, manifest) => {
       if (wxt.config.mode !== "development") return;
