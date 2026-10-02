@@ -89,6 +89,14 @@ export const welcomeText = () =>
     "Start by choosing your filters below.",
   ].join("\n");
 
+export const linkedText = () =>
+  [
+    "<b>Connected to your Chrome extension</b>",
+    "Alerts for this browser will come to this chat. You can choose filters in the extension popup or with the buttons below.",
+    "",
+    "We never ask for your visa-site login, and we never book for you.",
+  ].join("\n");
+
 export const helpText = () =>
   [
     "<b>How this works</b>",

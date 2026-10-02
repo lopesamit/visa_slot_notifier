@@ -7,6 +7,7 @@ import {
   type Slot,
 } from "@visa-slot/shared";
 import type { Subscriber } from "./db";
+import { isLinkKey, linkChat } from "./links";
 import {
   deleteSubscriber,
   getOrCreateSubscriber,
@@ -22,6 +23,7 @@ import {
   filtersKeyboard,
   filtersMenuText,
   helpText,
+  linkedText,
   slotAlertText,
   statusText,
   welcomeText,
@@ -75,6 +77,13 @@ async function handleCommand(db: Db, tg: TelegramApi, message: TelegramMessage, 
 
   switch (parsed.command) {
     case "start": {
+      const linkKey = parsed.args[0];
+      if (isLinkKey(linkKey)) {
+        const s = await linkChat(db, chatId, linkKey, now);
+        await tg.sendMessage(chatId, linkedText());
+        await sendFilters(tg, s!);
+        return;
+      }
       const s = await getOrCreateSubscriber(db, chatId, now);
       await tg.sendMessage(chatId, welcomeText());
       await sendFilters(tg, s);

@@ -1,0 +1,21 @@
+{
+  "name": "extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "build:local": "wxt build --mode development",
+    "zip": "wxt zip",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "@visa-slot/shared": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "wxt": "^0.20.0"
+  }
+}

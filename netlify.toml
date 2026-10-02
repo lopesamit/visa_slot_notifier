@@ -3,7 +3,7 @@ command = "npm run build -w web"
 publish = "web/dist"
 
 [build.environment]
-NODE_VERSION = "20"
+NODE_VERSION = "22"
 # The database name is also the default in code; it is not a secret.
 SECRETS_SCAN_OMIT_KEYS = "MONGODB_DB"
 

@@ -47,8 +47,6 @@ The canonical lists and the slot key live in `shared/`.
 | `api/scripts/` | `db:check` and `db:indexes` against the database in `.env` |
 | `api/functions/` | Netlify Functions: report ingest, Telegram webhook, public board |
 
-`extension/` and `api/functions/` are added in later build steps.
-
 ## Stack
 
 | Part | Choice |
@@ -60,7 +58,7 @@ The canonical lists and the slot key live in `shared/`.
 
 ## Local setup
 
-Requires Node 20 (see `.nvmrc`).
+Requires Node 22 (see `.nvmrc`).
 
 ```sh
 nvm use
@@ -89,6 +87,25 @@ npm run bot:poll -w api
 If the production webhook is set, polling refuses to start. Pass
 `-- --take-over` to remove it, and run `npm run bot:webhook -w api` afterwards
 to point Telegram back at `https://freevisaslotnotifier.com/api/telegram`.
+
+## Extension
+
+The popup creates two random IDs on first run: an `installId` for reports and
+a secret `linkKey` that connects Telegram through
+`t.me/VisaSlotNotifierForAllFreeBot?start=<linkKey>`. The server stores only a
+hash of the `linkKey`. Filters are read and saved with `POST /api/subscription`.
+
+Try it locally against the local API:
+
+```sh
+npm run serve -w api                    # API on http://localhost:8787
+npm run bot:poll -w api -- --take-over  # bot replies from your machine
+npm run build:local -w extension
+```
+
+Load `extension/.output/chrome-mv3-dev` in `chrome://extensions` (Developer
+mode, Load unpacked). `npm run build -w extension` builds the store version,
+which talks to `https://freevisaslotnotifier.com`.
 
 ## Report endpoint
 
@@ -120,10 +137,7 @@ It refuses to run if more than three chats match, and deletes what it created.
 
 ## Deploy
 
-The Netlify CLI needs Node 22.13 or newer, so switch Node first:
-
 ```sh
-nvm use 23
 npm run deploy
 ```
 

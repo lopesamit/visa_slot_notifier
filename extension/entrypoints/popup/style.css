@@ -1,0 +1,192 @@
+:root {
+  --paper: #f3efe6;
+  --ink: #1a1814;
+  --muted: #5e584e;
+  --line: #d9d2c5;
+  --green: #145c49;
+  --green-ink: #f3faf7;
+  --warn: #8a4b0f;
+  --kofi: #e85d4c;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 360px;
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 14px/1.45 "Avenir Next", "Segoe UI", sans-serif;
+}
+
+a {
+  color: var(--green);
+}
+
+.top,
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+}
+
+.top {
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-family: Palatino, "Palatino Linotype", Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.state {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.state.on {
+  color: var(--green);
+  font-weight: 600;
+}
+
+main {
+  padding: 12px 14px 4px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.warn {
+  color: var(--warn);
+}
+
+.error {
+  color: #a3271b;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--green-ink);
+  font-weight: 650;
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+fieldset {
+  margin: 0 0 10px;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chips label {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.chips input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chips label:has(input:checked) {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--green-ink);
+}
+
+.chips label:has(input:focus-visible) {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.dates label {
+  display: grid;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.dates input {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fffdf8;
+  font: inherit;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.status {
+  min-height: 20px;
+  font-size: 12px;
+}
+
+.foot {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.foot a {
+  color: var(--kofi);
+  font-weight: 650;
+}

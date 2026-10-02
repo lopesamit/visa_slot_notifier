@@ -2,12 +2,13 @@
   "name": "visa-slot-notifier",
   "private": true,
   "engines": {
-    "node": ">=20"
+    "node": ">=22.13"
   },
   "workspaces": [
     "shared",
     "web",
-    "api"
+    "api",
+    "extension"
   ],
   "scripts": {
     "test": "npm test --workspaces --if-present",

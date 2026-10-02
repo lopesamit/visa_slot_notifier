@@ -24,6 +24,9 @@ export type Subscriber = {
   dateFrom?: string;
   dateTo?: string;
   paused: boolean;
+  /** sha256 of the Chrome extension's link key, once the chat is connected. */
+  linkKeyHash?: string;
+  linkedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -86,6 +89,10 @@ export async function ensureIndexes(db: Db): Promise<void> {
     slotEvents.createIndex({ post: 1, visaClass: 1, kind: 1, date: 1 }, { name: "board" }),
     subscribers.createIndex({ chatId: 1 }, { unique: true, name: "chat_id_unique" }),
     subscribers.createIndex({ paused: 1, posts: 1 }, { name: "match_by_post" }),
+    subscribers.createIndex(
+      { linkKeyHash: 1 },
+      { unique: true, partialFilterExpression: { linkKeyHash: { $type: "string" } }, name: "link_key_unique" },
+    ),
     deliveries.createIndex(
       { waveId: 1, chatId: 1 },
       { unique: true, name: "one_delivery_per_wave" },
