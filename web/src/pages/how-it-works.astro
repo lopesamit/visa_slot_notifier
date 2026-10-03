@@ -1,35 +1,100 @@
 ---
+import { BOT_USERNAME } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
+
+const botUrl = `https://t.me/${BOT_USERNAME}`;
+const check = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>`;
+const cross = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>`;
+
+const does = [
+  "Reads the open dates the official calendar already shows you",
+  "Shares the post, visa class, OFC or consular, and those dates",
+  "Lets you pause sharing or alerts at any time",
+];
+const never = [
+  "Asks for or reads your visa-site login",
+  "Clicks, types, books, or reschedules anything",
+  "Sends your name, passport number, or page contents",
+];
 ---
 
 <Base
   title="How it works"
-  description="How a visa appointment opening becomes one free Telegram message."
+  description="How an open visa appointment date becomes one free Telegram message, and what the extension does and never does."
 >
-  <main class="section prose">
-    <div class="wrap">
-      <h1>How it works</h1>
-      <p>
-        The Chrome extension is the next piece we are building. This page is the
-        product it will serve.
-      </p>
-      <ol class="steps">
-        <li>You install the extension and choose a post, a visa class, and OFC or consular.</li>
-        <li>You connect Telegram. The bot can message that chat, and nothing else.</li>
-        <li>
-          Someone who is already on the official scheduling site sees a date. The
-          extension reports that date. It does not click, type, or book.
-        </li>
-        <li>
-          If several people see the same opening, it is still one alert. Everyone
-          whose filters match receives that message once.
-        </li>
-        <li>You open the official site and book it yourself, if the date is still there.</li>
-      </ol>
-      <p>
-        A slot can disappear before you arrive. The message means the date was seen,
-        not that it is being held.
-      </p>
-    </div>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">How it works</span>
+        <h1 class="reveal d1">From an open date to <em>your phone.</em></h1>
+        <p class="lede reveal d2">
+          Visa Slot Notifier is a small community network. People already checking the
+          official site share the dates they see, and everyone else gets one message.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 1rem">
+      <div class="wrap">
+        <ol class="timeline">
+          <li class="scroll-reveal">
+            <h3>Start the Telegram bot</h3>
+            <p>
+              Open <a href={botUrl} target="_blank" rel="noopener noreferrer">@{BOT_USERNAME}</a>,
+              press Start, and pick your posts, visa classes, and OFC or consular. Add a date
+              window with /dates if you only want certain months.
+            </p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>Add the Chrome extension (optional)</h3>
+            <p>
+              The extension lets you manage alerts from your browser and share the dates you
+              see while you are on the official scheduling site. It is coming to the Chrome
+              Web Store soon.
+            </p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>Someone sees a date</h3>
+            <p>
+              A person with the extension opens the official OFC or consular calendar. The
+              extension notes the open dates on that page and sends just those dates to us.
+            </p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>One alert goes out</h3>
+            <p>
+              If several people see the same opening, it is still one alert. Everyone whose
+              filters match receives that message once, at the same time.
+            </p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>You book it yourself</h3>
+            <p>
+              Open the official site and book the date if it is still there. Slots can vanish
+              fast; an alert means the date was seen, not that it is being held for you.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <div class="section-head scroll-reveal">
+          <h2>What the extension <em>does</em>, and never does.</h2>
+          <p>Built so you can trust it on a page that matters.</p>
+        </div>
+        <div class="compare">
+          <div class="card scroll-reveal">
+            <h3>It does</h3>
+            <ul class="yes">{does.map((item) => <li><Fragment set:html={check} />{item}</li>)}</ul>
+          </div>
+          <div class="card scroll-reveal">
+            <h3>It never</h3>
+            <ul class="no">{never.map((item) => <li><Fragment set:html={cross} />{item}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </Base>

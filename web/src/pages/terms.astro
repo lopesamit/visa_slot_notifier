@@ -7,32 +7,41 @@ import { showDonate } from "../site";
   title="Terms"
   description="Visa Slot Notifier is an informational alert service. It does not book appointments."
 >
-  <main class="section prose">
-    <div class="wrap">
-      <h1>Terms</h1>
-      <p>
-        Visa Slot Notifier is an independent alert service. It is not affiliated
-        with, endorsed by, or connected to any U.S. government agency, embassy,
-        consulate, or visa scheduling provider.
-      </p>
-      <p>
-        Alerts are informational. A message means a date was reported. It does not
-        reserve that date, and it does not mean a visa will be approved. You book
-        on the official site yourself.
-      </p>
-      <p>
-        The service does not ask for your scheduling-site login and does not book,
-        reschedule, or cancel appointments. Do not send those credentials to us.
-      </p>
-      <p>
-        Alerts are free for everyone. There are no paid alerts, extra posts, or
-        private feeds.
-        {showDonate && " A donation through Ko-fi is voluntary and does not buy any of these."}
-      </p>
-      <p>
-        Appointment availability changes quickly. We do not guarantee that a reported
-        date will still be open when you check.
-      </p>
-    </div>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">Terms</span>
+        <h1 class="reveal d1">The short, <em>honest</em> version.</h1>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0">
+      <div class="wrap prose">
+        <p>
+          Visa Slot Notifier is an independent alert service. It is not affiliated
+          with, endorsed by, or connected to any U.S. government agency, embassy,
+          consulate, or visa scheduling provider.
+        </p>
+        <h2>Alerts are informational</h2>
+        <p>
+          A message means a date was reported. It does not reserve that date, and it does
+          not mean a visa will be approved. You book on the official site yourself.
+        </p>
+        <h2>No booking, no logins</h2>
+        <p>
+          The service does not ask for your scheduling-site login and does not book,
+          reschedule, or cancel appointments. Do not send those credentials to us.
+        </p>
+        <h2>Free for everyone</h2>
+        <p>
+          There are no paid alerts, extra posts, or private feeds.
+          {showDonate && " A donation through Ko-fi is voluntary and does not buy any of these."}
+        </p>
+        <p class="note">
+          Appointment availability changes quickly. We do not guarantee that a reported
+          date will still be open when you check.
+        </p>
+      </div>
+    </section>
   </main>
 </Base>

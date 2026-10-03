@@ -1,4 +1,5 @@
 ---
+import { BOT_USERNAME } from "@visa-slot/shared";
 import { kofiUrl, showDonate, siteName } from "../site";
 import "../styles/global.css";
 
@@ -8,8 +9,11 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const path = Astro.url.pathname;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const pageTitle = path === "/" ? title : `${title} · ${siteName}`;
+const botUrl = `https://t.me/${BOT_USERNAME}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const current = (href: string) => (path === href ? "page" : undefined);
 ---
 
 <html lang="en">
@@ -18,39 +22,74 @@ const pageTitle = path === "/" ? title : `${title} · ${siteName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#090d0b" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="/">{siteName}</a>
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+          </span>
+          {siteName}
+        </a>
         <nav class="nav" aria-label="Primary">
-          <a href="/how-it-works" aria-current={path === "/how-it-works" ? "page" : undefined}>
-            How it works
-          </a>
-          <a href="/privacy" aria-current={path === "/privacy" ? "page" : undefined}>Privacy</a>
+          <a href="/how-it-works" aria-current={current("/how-it-works")}>How it works</a>
+          <a href="/privacy" aria-current={current("/privacy")}>Privacy</a>
           {
             showDonate && (
               <a class="donate" href={kofiUrl} target="_blank" rel="noopener noreferrer">
-                Donate on Ko-fi
+                Donate
               </a>
             )
           }
+          <a class="nav-cta" href={botUrl} target="_blank" rel="noopener noreferrer">Get alerts</a>
         </nav>
       </div>
     </header>
-    <slot />
+    <div id="main">
+      <slot />
+    </div>
     <footer class="site-footer">
       <div class="wrap">
-        <p>
-          Not affiliated with any U.S. government agency, embassy, consulate, or visa
-          scheduling provider. Alerts are informational. You book on the official site.
-        </p>
-        <nav class="nav" aria-label="Footer">
-          <a href="/terms">Terms</a>
-          <a href="/privacy">Privacy</a>
-        </nav>
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="/">{siteName}</a>
+            <p>
+              Not affiliated with any U.S. government agency, embassy, consulate, or visa
+              scheduling provider. Alerts are informational. You book on the official site.
+            </p>
+          </div>
+          <nav class="nav" aria-label="Footer">
+            <a href="/how-it-works">How it works</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+          </nav>
+        </div>
+        <div class="footer-word" aria-hidden="true">Free, always.</div>
       </div>
     </footer>
+    <script>
+      const header = document.querySelector(".site-header");
+      const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      for (const card of document.querySelectorAll<HTMLElement>(".card")) {
+        card.addEventListener("pointermove", (event) => {
+          const box = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${event.clientX - box.left}px`);
+          card.style.setProperty("--my", `${event.clientY - box.top}px`);
+        });
+      }
+    </script>
   </body>
 </html>

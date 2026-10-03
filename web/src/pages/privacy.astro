@@ -7,37 +7,50 @@ import { kofiUrl, showDonate } from "../site";
   title="Privacy"
   description="What Visa Slot Notifier stores, and what it never asks for."
 >
-  <main class="section prose">
-    <div class="wrap">
-      <h1>Privacy</h1>
-      <p>
-        This service reports appointment dates. It is not a place to enter a visa
-        application.
-      </p>
-      <h2>What we store</h2>
-      <ul class="steps">
-        <li>A reported opening: post, visa class, OFC or consular, and the date.</li>
-        <li>A random id for the browser that sent the report, used to limit floods.</li>
-        <li>Your Telegram chat id and the filters you choose, so we know where to send a match.</li>
-      </ul>
-      <h2>What we never ask for</h2>
-      <ul class="steps">
-        <li>Visa-site usernames, passwords, or security answers.</li>
-        <li>Passport numbers, payment cards, or application answers.</li>
-        <li>Screenshots of the scheduling page.</li>
-      </ul>
-      {
-        showDonate && (
-          <p>
-            Donations happen on <a href={kofiUrl}>Ko-fi</a>. We do not receive your card
-            number. Ko-fi handles that payment under its own policy.
-          </p>
-        )
-      }
-      <p>
-        Telegram delivers the alert. Once a chat id is stored, it is used only to
-        send matching openings and to remember your filters.
-      </p>
-    </div>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">Privacy</span>
+        <h1 class="reveal d1">We keep <em>very little.</em></h1>
+        <p class="lede reveal d2">
+          This service reports appointment dates. It is not a place to enter a visa
+          application, and it never needs your login.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0">
+      <div class="wrap prose">
+        <h2>What we store</h2>
+        <ul>
+          <li>A reported opening: post, visa class, OFC or consular, and the date.</li>
+          <li>A random id for the browser that sent the report, used only to limit floods.</li>
+          <li>Your Telegram chat id and the filters you choose, so we know where to send a match.</li>
+        </ul>
+        <h2>What we never ask for</h2>
+        <ul>
+          <li>Visa-site usernames, passwords, or security answers.</li>
+          <li>Passport numbers, payment cards, or application answers.</li>
+          <li>Screenshots or the contents of the scheduling page.</li>
+        </ul>
+        <h2>Telegram</h2>
+        <p>
+          Telegram delivers the alert. Once a chat id is stored, it is used only to send
+          matching openings and to remember your filters. Send <strong>/stop</strong> to the
+          bot to delete them.
+        </p>
+        {
+          showDonate && (
+            <>
+              <h2>Donations</h2>
+              <p>
+                Donations happen on <a href={kofiUrl}>Ko-fi</a>. We do not receive your card
+                number. Ko-fi handles that payment under its own policy.
+              </p>
+            </>
+          )
+        }
+      </div>
+    </section>
   </main>
 </Base>
