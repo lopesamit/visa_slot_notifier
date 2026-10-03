@@ -1,0 +1,170 @@
+---
+import { POSTS, VISA_CLASSES } from "@visa-slot/shared";
+import Base from "../layouts/Base.astro";
+import {
+  APPOINTMENT_OPTIONS,
+  DOCUMENTS,
+  MARITAL_OPTIONS,
+  NEED_LABEL,
+  OFFICIAL_LINKS,
+  POST_NOTES,
+} from "../documents";
+---
+
+<Base
+  title="Documents"
+  description="What to take to the OFC and the consular interview in India, by visa type and family situation. A community checklist — confirm on official sites before you go."
+>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">Documents</span>
+        <h1 class="reveal d1">What to take, <em>without</em> paying an agent.</h1>
+        <p class="lede reveal d2">
+          Same list at Mumbai, Delhi, Chennai, Hyderabad, and Kolkata. Pick your visa
+          type and whether you are single or married. This is a community checklist
+          from public U.S. government guidance. An officer can still ask for more, and
+          rules change — confirm on the official sites before you travel.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <form id="doc-filters" class="doc-filters" aria-label="Filter the document list">
+          <fieldset>
+            <legend>Visa</legend>
+            <div class="chips">
+              {VISA_CLASSES.map((visa, i) => (
+                <label>
+                  <input type="radio" name="visa" value={visa.id} checked={i === 0} />
+                  {visa.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>You are</legend>
+            <div class="chips">
+              {MARITAL_OPTIONS.map((item, i) => (
+                <label>
+                  <input type="radio" name="marital" value={item.id} checked={i === 0} />
+                  {item.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Appointment</legend>
+            <div class="chips">
+              {APPOINTMENT_OPTIONS.map((item) => (
+                <label>
+                  <input type="radio" name="kind" value={item.id} checked={item.id === "both"} />
+                  {item.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Post</legend>
+            <div class="chips">
+              <label>
+                <input type="radio" name="post" value="all" checked />
+                All posts
+              </label>
+              {POSTS.map((post) => (
+                <label>
+                  <input type="radio" name="post" value={post.id} />
+                  {post.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </form>
+
+        <p class="doc-count muted" id="doc-count"></p>
+        <div id="doc-results"></div>
+
+        <aside class="note">
+          <strong>Not official advice.</strong> We are not the embassy, a consulate, or a
+          lawyer. Use this to pack a folder, then check:
+          <span class="doc-links">
+            {OFFICIAL_LINKS.map((link) => (
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>
+            ))}
+          </span>
+        </aside>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script define:vars={{ documents: DOCUMENTS, needLabel: NEED_LABEL, postNotes: POST_NOTES }}>
+  const form = document.getElementById("doc-filters");
+  const results = document.getElementById("doc-results");
+  const count = document.getElementById("doc-count");
+  if (!form || !results || !count) throw new Error("document list markup missing");
+
+  const matches = (doc, visa, marital, kind, post) => {
+    if (doc.visas && !doc.visas.includes(visa)) return false;
+    if (doc.marital && !doc.marital.includes(marital)) return false;
+    if (kind !== "both" && doc.kinds && !doc.kinds.includes(kind)) return false;
+    if (post !== "all" && doc.posts && !doc.posts.includes(post)) return false;
+    return true;
+  };
+
+  const sectionTitle = (doc) => {
+    if (!doc.kinds) return "Every visitor (OFC and interview)";
+    if (doc.kinds.length === 1 && doc.kinds[0] === "ofc") return "At the OFC / VAC";
+    return "At the consular interview";
+  };
+
+  const render = () => {
+    const data = new FormData(form);
+    const visa = String(data.get("visa"));
+    const marital = String(data.get("marital"));
+    const kind = String(data.get("kind"));
+    const post = String(data.get("post"));
+    const items = documents.filter((doc) => matches(doc, visa, marital, kind, post));
+
+    const groups = new Map();
+    for (const doc of items) {
+      const title = sectionTitle(doc);
+      if (!groups.has(title)) groups.set(title, []);
+      groups.get(title).push(doc);
+    }
+
+    count.textContent = `${items.length} items for this situation. Originals plus one set of copies is the usual way to pack.`;
+
+    const postNote = post !== "all" ? postNotes[post] : "Document rules are the same at all five U.S. posts in India. Only the OFC and consulate addresses change.";
+
+    results.innerHTML = [
+      `<p class="doc-post">${postNote}</p>`,
+      ...[...groups.entries()].map(
+        ([title, docs]) => `
+        <section class="doc-group">
+          <h2>${title}</h2>
+          <ul class="doc-list">
+            ${docs
+              .map(
+                (doc) => `
+              <li>
+                <span class="need need-${doc.need}">${needLabel[doc.need]}</span>
+                <div>
+                  <strong>${doc.title}</strong>
+                  ${doc.note ? `<p>${doc.note}</p>` : ""}
+                </div>
+              </li>`,
+              )
+              .join("")}
+          </ul>
+        </section>`,
+      ),
+    ].join("");
+  };
+
+  form.addEventListener("change", render);
+  render();
+</script>

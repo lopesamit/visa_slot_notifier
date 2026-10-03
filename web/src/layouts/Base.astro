@@ -16,8 +16,6 @@ const pageTitle = path === "/" ? title : `${title} · ${siteName}`;
 const botUrl = `https://t.me/${BOT_USERNAME}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const current = (href: string) => (path === href ? "page" : undefined);
-/** Documents tab is still local-only until you approve it. */
-const showDocuments = import.meta.env.DEV;
 const showAnalytics = import.meta.env.PROD;
 ---
 
@@ -48,7 +46,7 @@ const showAnalytics = import.meta.env.PROD;
           {siteName}
         </a>
         <nav class="nav" aria-label="Primary">
-          {showDocuments && <a href="/documents" aria-current={current("/documents")}>Documents</a>}
+          <a href="/documents" aria-current={current("/documents")}>Documents</a>
           <a href="/how-it-works" aria-current={current("/how-it-works")}>How it works</a>
           <a href="/privacy" aria-current={current("/privacy")}>Privacy</a>
           {
@@ -76,7 +74,7 @@ const showAnalytics = import.meta.env.PROD;
             </p>
           </div>
           <nav class="nav" aria-label="Footer">
-            {showDocuments && <a href="/documents">Documents</a>}
+            <a href="/documents">Documents</a>
             <a href="/how-it-works">How it works</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
