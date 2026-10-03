@@ -1,0 +1,72 @@
+---
+import { BOT_USERNAME } from "@visa-slot/shared";
+import Base from "../layouts/Base.astro";
+import pkg from "../../../extension/package.json";
+
+const botUrl = `https://t.me/${BOT_USERNAME}`;
+const zipUrl = "/testing/visa-slot-notifier.zip";
+---
+
+<Base
+  title="Early tester install"
+  description="Private install page for people helping test Visa Slot Notifier before it is in the Chrome Web Store."
+  noindex
+>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">Private tester page</span>
+        <h1 class="reveal d1">Help try the extension <em>before</em> the store.</h1>
+        <p class="lede reveal d2">
+          This page is not linked from the rest of the site. Chrome does not let
+          websites install extensions, so you download a zip and load it yourself.
+          Version {pkg.version}. It talks to the live site, never asks for your
+          visa-site login, and never books anything.
+        </p>
+        <div class="actions reveal d3">
+          <a class="button" href={zipUrl} download="visa-slot-notifier.zip">
+            Download the extension
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v12M6 13l6 6 6-6M5 21h14"></path></svg>
+          </a>
+          <a class="button ghost" href={botUrl} target="_blank" rel="noopener noreferrer">Open the Telegram bot</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <ol class="timeline">
+          <li class="scroll-reveal">
+            <h3>Unzip the file</h3>
+            <p>Keep the unzipped folder. Chrome reads the extension from that folder, so do not delete it after installing.</p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>Turn on Developer mode</h3>
+            <p>On a computer, open <code>chrome://extensions</code> and turn on Developer mode in the top right. This also works in Brave and Edge.</p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>Load the unzipped folder</h3>
+            <p>Click <strong>Load unpacked</strong> and pick the folder you just unzipped.</p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>Connect Telegram</h3>
+            <p>
+              Open the extension, click <strong>Connect Telegram</strong>, then press
+              <strong>Start</strong> in the bot. Pick your posts, visa class, and
+              appointment type. Under “Share dates I see”, choose the visa class you
+              are scheduling for.
+            </p>
+          </li>
+          <li class="scroll-reveal">
+            <h3>If you can open the real calendar</h3>
+            <p>
+              Open the OFC or consular calendar on usvisascheduling.com, then look at
+              the extension popup. Tell Amit what it says under “Share dates I see”.
+              That is the one check that still needs a real login.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+</Base>

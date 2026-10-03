@@ -6,9 +6,11 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description: string;
+  /** Hidden pages (such as /testing) stay out of search results. */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const pageTitle = path === "/" ? title : `${title} · ${siteName}`;
 const botUrl = `https://t.me/${BOT_USERNAME}`;
@@ -22,6 +24,7 @@ const current = (href: string) => (path === href ? "page" : undefined);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#090d0b" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />

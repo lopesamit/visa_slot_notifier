@@ -107,6 +107,10 @@ Load `extension/.output/chrome-mv3-dev` in `chrome://extensions` (Developer
 mode, Load unpacked). `npm run build -w extension` builds the store version,
 which talks to `https://freevisaslotnotifier.com`.
 
+`npm run build:site` also copies that zip to a private page at
+`/testing`. Nothing on the public site links to it. Share
+`https://freevisaslotnotifier.com/testing` with testers.
+
 ### Slot reporter
 
 On `https://www.usvisascheduling.com`, the extension reads the calendar data

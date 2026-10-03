@@ -1,5 +1,5 @@
 [build]
-command = "npm run build -w web"
+command = "npm run build:site"
 publish = "web/dist"
 
 [build.environment]
@@ -11,3 +11,13 @@ SECRETS_SCAN_OMIT_KEYS = "MONGODB_DB"
 directory = "api/functions"
 node_bundler = "esbuild"
 external_node_modules = ["mongodb"]
+
+[[headers]]
+  for = "/testing"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/testing/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
