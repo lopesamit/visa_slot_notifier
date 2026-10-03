@@ -12,3 +12,6 @@ export const kofiUrl =
 export { DONATIONS_ENABLED as showDonate } from "@visa-slot/shared";
 
 export const siteName = "Visa Slot Notifier";
+
+/** Public Cloudflare Web Analytics token. It is meant to appear in the page. */
+export const CLOUDFLARE_BEACON_TOKEN = "0c8e266e7ed146d5bac23db1022472b6";

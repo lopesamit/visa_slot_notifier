@@ -1,6 +1,6 @@
 ---
 import { BOT_USERNAME } from "@visa-slot/shared";
-import { kofiUrl, showDonate, siteName } from "../site";
+import { CLOUDFLARE_BEACON_TOKEN, kofiUrl, showDonate, siteName } from "../site";
 import "../styles/global.css";
 
 interface Props {
@@ -16,6 +16,9 @@ const pageTitle = path === "/" ? title : `${title} · ${siteName}`;
 const botUrl = `https://t.me/${BOT_USERNAME}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const current = (href: string) => (path === href ? "page" : undefined);
+/** Documents tab is still local-only until you approve it. */
+const showDocuments = import.meta.env.DEV;
+const showAnalytics = import.meta.env.PROD;
 ---
 
 <html lang="en">
@@ -45,6 +48,7 @@ const current = (href: string) => (path === href ? "page" : undefined);
           {siteName}
         </a>
         <nav class="nav" aria-label="Primary">
+          {showDocuments && <a href="/documents" aria-current={current("/documents")}>Documents</a>}
           <a href="/how-it-works" aria-current={current("/how-it-works")}>How it works</a>
           <a href="/privacy" aria-current={current("/privacy")}>Privacy</a>
           {
@@ -72,6 +76,7 @@ const current = (href: string) => (path === href ? "page" : undefined);
             </p>
           </div>
           <nav class="nav" aria-label="Footer">
+            {showDocuments && <a href="/documents">Documents</a>}
             <a href="/how-it-works">How it works</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
@@ -94,5 +99,15 @@ const current = (href: string) => (path === href ? "page" : undefined);
         });
       }
     </script>
+    {
+      showAnalytics && (
+        <script
+          is:inline
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: CLOUDFLARE_BEACON_TOKEN })}
+        />
+      )
+    }
   </body>
 </html>
