@@ -1,9 +1,7 @@
 import { storage } from "#imports";
 
 export type Identity = {
-  /** Sent with slot reports; used only for rate limiting. */
-  installId: string;
-  /** Secret that controls this browser's Telegram link. Never sent with reports. */
+  /** Secret that controls this browser's Telegram link and proves a share comes from a connected chat. */
   linkKey: string;
 };
 
@@ -20,7 +18,7 @@ function randomToken(bytes: number): string {
 export async function getIdentity(): Promise<Identity> {
   const existing = await identityItem.getValue();
   if (existing) return existing;
-  const identity = { installId: randomToken(18), linkKey: randomToken(32) };
+  const identity = { linkKey: randomToken(32) };
   await identityItem.setValue(identity);
   return identity;
 }

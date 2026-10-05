@@ -180,9 +180,126 @@ legend {
   font-size: 12px;
 }
 
-.reporter {
+.share {
   padding: 10px 14px 4px;
   border-top: 1px solid var(--line);
+}
+
+.share:empty {
+  display: none;
+}
+
+.section-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.wide {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.ok {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.cal {
+  margin: 8px 0 4px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fffdf8;
+}
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.cal-nav {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--green);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cal-nav:hover:not(:disabled) {
+  background: var(--paper);
+}
+
+.cal-nav:disabled {
+  color: var(--line);
+  cursor: default;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  text-align: center;
+}
+
+.cal-dow {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.cal-grid button {
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: none;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.cal-grid button:hover:not(:disabled) {
+  border-color: var(--green);
+}
+
+.cal-grid button.today {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cal-grid button.on {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--green-ink);
+}
+
+.cal-grid button:disabled {
+  color: var(--line);
+  cursor: default;
+}
+
+.cal-grid button:focus-visible,
+.cal-nav:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+}
+
+.picked {
+  min-height: 18px;
+  color: var(--ink);
+}
+
+.picked .link {
+  font-size: 12px;
 }
 
 .small {
@@ -198,7 +315,9 @@ legend {
   margin-bottom: 4px;
 }
 
-.field select {
+.field select,
+.field input {
+  width: 170px;
   padding: 4px 6px;
   border: 1px solid var(--line);
   border-radius: 6px;

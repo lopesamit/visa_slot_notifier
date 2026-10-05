@@ -2,7 +2,7 @@
 
 Copy these fields into https://chrome.google.com/webstore/devconsole after the zip uploads.
 
-Upload zip: `extension/.output/visa-slot-notifier-0.1.0-chrome.zip`  
+Upload zip: `extension/.output/visa-slot-notifier-0.2.0-chrome.zip`  
 Store icon (128×128): `extension/assets/icon-128.png`  
 Screenshots: `extension/store/screenshots/`
 
@@ -22,23 +22,23 @@ Visa Slot Notifier
 
 ## Short description (132 characters max)
 
-Free Telegram alerts when someone sees a U.S. visa date in India. Never asks for your login. Never books for you.
+Free Telegram alerts when someone shares an open U.S. visa date in India. Never asks for your login. Never books for you.
 
 ## Detailed description
 
 Visa Slot Notifier is a free Chrome extension for people booking U.S. visa appointments in India (Mumbai, New Delhi, Chennai, Hyderabad, Kolkata).
 
-When you are already on the official scheduling site (usvisascheduling.com), the extension can share the open OFC or consular dates that page is already showing. Matching people get one Telegram message. Many people can see the same date; you still get only one alert.
+When someone checking the official scheduling site sees open OFC or consular dates, they open this extension, pick the post and visa class, tap the open days on a small calendar, and press Share. They can also highlight a date on any page and right-click “Share this date”. Everyone whose filters match gets one Telegram message right away. Many people can share the same date; you still get only one alert.
 
 What it does
 • Connects this browser to Telegram so you can choose posts, visa class, OFC or consular, and an optional date range
-• Reads appointment dates already visible on the official calendar and sends only post, visa class, appointment type, and dates
-• Lets you pause sharing or alerts at any time
+• Lets you share dates you saw yourself: tap them on a calendar, or right-click a highlighted date
+• Lets you pause alerts at any time
 
 What it never does
+• Never runs on, reads, or touches the official scheduling site
 • Never asks for your visa-site username, password, or security answers
 • Never clicks, types, fills forms, or books an appointment
-• Never sends your name, passport number, or a screenshot
 • Never charges for alerts. There is no paid tier.
 
 Alerts are sent by Telegram bot @VisaSlotNotifierForAllFreeBot. You book the date yourself on the official site. A slot can disappear before you arrive.
@@ -47,7 +47,7 @@ How to use
 1. Install this extension
 2. Open it, tap Connect Telegram, and press Start in the bot
 3. Pick the posts and visa class you care about
-4. If you check the official calendar, turn on “Share dates I see” and choose your visa class
+4. When you see open dates on the official site, tap them in the popup and press Share
 
 Website: https://freevisaslotnotifier.com
 Privacy: https://freevisaslotnotifier.com/privacy
@@ -58,25 +58,23 @@ Not affiliated with any U.S. government agency, embassy, consulate, or visa sche
 
 ## Single purpose (Privacy practices tab)
 
-Free Telegram alerts when a U.S. visa appointment date in India is seen on the official scheduling site. The extension (1) links Telegram so the user can set filters, and (2) reports dates already shown on usvisascheduling.com. It does not book appointments, fill forms, or collect visa-site logins.
+Free Telegram alerts for U.S. visa appointment dates in India. The extension (1) links Telegram so the user can set alert filters, and (2) lets the user share appointment dates they saw, by tapping them in the popup or right-clicking a date they highlighted. It does not run on any other website, book appointments, fill forms, or collect visa-site logins.
 
 ---
 
 ## Permission justifications
 
-Paste into each justification box. If Google also lists the content-script host, use the usvisascheduling.com answer.
-
 ### storage
 
-Stores on this device only: a random install id used to rate-limit reports, a secret used to link Telegram, the user’s alert filters, and whether they opted to share calendar dates. No passwords or visa-site credentials are stored.
+Stores on this device only: a secret used to link Telegram, the post, appointment type, and visa class the user last shared so they do not have to pick them again, and, for a few minutes, a date picked from a right-click until the popup shows it. No passwords or visa-site credentials are stored.
+
+### contextMenus
+
+Adds one right-click item, “Share this date with Visa Slot Notifier”, shown only when the user has highlighted text. When the user clicks it, the extension looks for a date in that highlighted text and opens the popup with the date pre-selected; the user reviews it and presses Share. Nothing is sent until they do. The extension has no content scripts and does not read pages.
 
 ### Host permission: https://freevisaslotnotifier.com/*
 
-Sends slot reports and reads/saves Telegram subscription filters on our HTTPS API. The extension does not access any other website through this permission.
-
-### Host / content script: https://www.usvisascheduling.com/*
-
-Runs only on the official U.S. visa scheduling site for India. It reads appointment dates the page already loaded to draw its calendar (post, OFC or consular, and dates). It never clicks, types, submits forms, or books. It does not read login fields or the rest of the page.
+Sends the dates the user chooses to share, and reads/saves their Telegram alert filters, on our own HTTPS API. The extension does not access any other website.
 
 ---
 
@@ -84,7 +82,7 @@ Runs only on the official U.S. visa scheduling site for India. It reads appointm
 
 Select: **No, I am not using remote code.**
 
-The extension only loads its own packaged scripts. It talks to https://freevisaslotnotifier.com over HTTPS for JSON reports and settings. It does not download or execute script from the network.
+The extension only loads its own packaged scripts. It talks to https://freevisaslotnotifier.com over HTTPS for JSON shares and settings. It does not download or execute script from the network.
 
 ---
 
@@ -93,10 +91,9 @@ The extension only loads its own packaged scripts. It talks to https://freevisas
 Check these collection types (and only these):
 
 - **Personally identifiable information** — Telegram chat id, only after the user presses Start in the bot. Used solely to deliver matching alerts and remember filters.
-- **User activity** — which filters they saved, and that this install reported a slot (a random install id, for rate limits).
-- **Website content** — structured calendar data from usvisascheduling.com: post, visa class the user selected in the popup, OFC or consular, and up to 10 dates. Not the full page, not screenshots, not form fields.
+- **User activity** — the filters they saved, and a short-lived count of their shares, used only for rate limits.
 
-Do **not** check: health, financial, authentication information, personal communications, location, web history.
+Do **not** check: website content, health, financial, authentication information, personal communications, location, web history.
 
 Certify all Limited Use statements (you do not sell data, you use it only for this extension’s features, you do not use it for creditworthiness, and so on).
 
@@ -106,4 +103,7 @@ Certify all Limited Use statements (you do not sell data, you use it only for th
 
 1. `screenshot-connect-1280x800.png` — popup, Connect Telegram
 2. `screenshot-settings-1280x800.png` — popup, filters after connecting
-3. `promo-440x280.png` — optional small tile
+3. `screenshot-share-1280x800.png` — popup, tapping dates on the share calendar
+4. `promo-440x280.png` — optional small tile
+
+Remove the old settings screenshot from the dashboard and upload the new one; the old one shows the removed “Share dates I see” toggle.

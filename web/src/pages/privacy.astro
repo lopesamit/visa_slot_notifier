@@ -13,7 +13,7 @@ import { kofiUrl, showDonate } from "../site";
         <span class="kicker reveal">Privacy</span>
         <h1 class="reveal d1">We keep <em>very little.</em></h1>
         <p class="lede reveal d2">
-          This service reports appointment dates. It is not a place to enter a visa
+          This service shares appointment dates people saw. It is not a place to enter a visa
           application, and it never needs your visa-site login.
         </p>
       </div>
@@ -23,30 +23,36 @@ import { kofiUrl, showDonate } from "../site";
       <div class="wrap prose">
         <h2>What we store</h2>
         <ul>
-          <li>A reported opening: post, visa class, OFC or consular, and the date.</li>
-          <li>A random id for the browser that sent the report, used only to limit floods.</li>
+          <li>A shared opening: post, visa class, OFC or consular, and the date. Who shared it is not stored with it.</li>
           <li>Your Telegram chat id and the filters you choose, so we know where to send a match.</li>
+          <li>A short-lived count of shares per Telegram chat, used only to limit floods.</li>
         </ul>
 
         <h2>Chrome extension</h2>
         <p>
-          The extension has two jobs: connect Telegram so you can set filters, and
-          share dates already shown on the official scheduling site
-          (usvisascheduling.com). Data is sent only over HTTPS to
-          freevisaslotnotifier.com.
+          The extension has two jobs: connect Telegram so you can set filters, and let
+          you share a date you saw yourself. It does not run on, read, or have access
+          to the official scheduling site (usvisascheduling.com). Data is sent only over
+          HTTPS to freevisaslotnotifier.com.
         </p>
         <p>On your computer it stores:</p>
         <ul>
-          <li>A random install id, used only to rate-limit reports.</li>
           <li>A secret used to link this browser to your Telegram chat. The server stores only a hash of that secret.</li>
-          <li>Your alert filters and whether you chose to share calendar dates.</li>
-        </ul>
-        <p>If you turn on sharing and open the official calendar, it sends:</p>
-        <ul>
-          <li>Post, visa class (the one you picked in the popup), OFC or consular, and up to 10 dates.</li>
+          <li>The post, appointment type, and visa class you last shared, so you don’t have to pick them again.</li>
         </ul>
         <p>
-          Those dates are used only to alert people whose filters match. We do not sell
+          If you highlight text on a page and choose <strong>Share this date</strong> from
+          the right-click menu, Chrome gives the extension only that highlighted text. It
+          looks for dates in it on your computer and pre-selects them in the popup. The text
+          itself is never sent.
+        </p>
+        <p>When you press <strong>Share</strong>, it sends:</p>
+        <ul>
+          <li>The post, visa class, OFC or consular, and the dates you picked.</li>
+          <li>The link secret, so the server knows the share comes from a connected Telegram chat.</li>
+        </ul>
+        <p>
+          Shared dates are used only to alert people whose filters match. We do not sell
           this data, show ads from it, or use it for anything else.
         </p>
         <p>
@@ -59,7 +65,7 @@ import { kofiUrl, showDonate } from "../site";
         <ul>
           <li>Visa-site usernames, passwords, or security answers.</li>
           <li>Passport numbers, payment cards, or application answers.</li>
-          <li>Screenshots or the contents of the scheduling page, other than the dates above.</li>
+          <li>Screenshots or any contents of the scheduling page.</li>
         </ul>
 
         <h2>Website visits</h2>

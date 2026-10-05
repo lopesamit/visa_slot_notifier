@@ -1,5 +1,4 @@
 import { defineConfig } from "wxt";
-import { DEV_SCHEDULER_MATCHES } from "./src/scheduler";
 
 const LOCAL_API = "http://localhost:8787";
 const LIVE_API = "https://freevisaslotnotifier.com";
@@ -10,7 +9,7 @@ export default defineConfig({
     name: "Visa Slot Notifier",
     description:
       "Free Telegram alerts for U.S. visa appointment dates. Never asks for your login and never books for you.",
-    permissions: ["storage"],
+    permissions: ["storage", "contextMenus"],
     icons: {
       16: "icon-16.png",
       32: "icon-32.png",
@@ -34,13 +33,5 @@ export default defineConfig({
   }),
   zip: {
     artifactTemplate: "visa-slot-notifier-{{version}}-{{browser}}.zip",
-  },
-  hooks: {
-    "build:manifestGenerated": (wxt, manifest) => {
-      if (wxt.config.mode !== "development") return;
-      for (const script of manifest.content_scripts ?? []) {
-        script.matches = [...(script.matches ?? []), ...DEV_SCHEDULER_MATCHES];
-      }
-    },
   },
 });

@@ -7,14 +7,14 @@ const check = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" strok
 const cross = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>`;
 
 const does = [
-  "Reads the open dates the official calendar already shows you",
-  "Shares the post, visa class, OFC or consular, and those dates",
-  "Lets you pause sharing or alerts at any time",
+  "Lets you tap the dates you saw on a calendar, or right-click a highlighted date",
+  "Sends only the post, visa class, OFC or consular, and those dates",
+  "Lets you choose and pause your alerts at any time",
 ];
 const never = [
-  "Asks for or reads your visa-site login",
+  "Runs on, reads, or touches the official scheduling site",
+  "Asks for your visa-site login",
   "Clicks, types, books, or reschedules anything",
-  "Sends your name, passport number, or page contents",
 ];
 ---
 
@@ -49,22 +49,26 @@ const never = [
             <h3>Add the Chrome extension</h3>
             <p>
               Install <strong>Visa Slot Notifier</strong> from the Chrome Web Store. It lets
-              you manage alerts from your browser and share the dates you see while you
-              are on the official scheduling site.
+              you manage alerts from your browser and share dates you see. It never runs
+              on the official scheduling site.
             </p>
           </li>
           <li class="scroll-reveal">
-            <h3>Someone sees a date</h3>
+            <h3>Someone shares a date</h3>
             <p>
-              A person with the extension opens the official OFC or consular calendar. The
-              extension notes the open dates on that page and sends just those dates to us.
+              A person checking the official site sees open OFC or consular dates. They open
+              the extension, pick the post and visa class, tap the open days on a small
+              calendar, and press <strong>Share</strong>. Or they highlight a date and
+              right-click <strong>Share this date</strong>. Only someone connected to
+              Telegram can share.
             </p>
           </li>
           <li class="scroll-reveal">
             <h3>One alert goes out</h3>
             <p>
-              If several people see the same opening, it is still one alert. Everyone whose
-              filters match receives that message once, at the same time.
+              The alert goes out the moment the date is shared. If several people share the
+              same opening, it is still one alert. Everyone whose filters match receives it
+              once, at the same time.
             </p>
           </li>
           <li class="scroll-reveal">

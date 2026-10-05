@@ -38,16 +38,15 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return data;
 }
 
-export type SlotReport = {
-  installId: string;
+export type DateShare = {
   post: PostId;
   visaClass: VisaClassId;
   kind: AppointmentKind;
   dates: string[];
 };
 
-export const sendReport = (report: SlotReport) =>
-  post<{ ok: true; newSlots: number }>("/api/report", report);
+export const shareDates = (linkKey: string, share: DateShare) =>
+  post<{ ok: true; newSlots: number; alerted: number }>("/api/share", { linkKey, ...share });
 
 export const fetchSubscription = (linkKey: string) =>
   post<Subscription>("/api/subscription", { action: "status", linkKey });

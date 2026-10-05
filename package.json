@@ -13,7 +13,7 @@
   "scripts": {
     "test": "npm test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "copy-extension-zip": "mkdir -p web/public/testing && cp extension/.output/visa-slot-notifier-*-chrome.zip web/public/testing/visa-slot-notifier.zip",
+    "copy-extension-zip": "mkdir -p web/public/testing && cp extension/.output/visa-slot-notifier-$(node -p \"require('./extension/package.json').version\")-chrome.zip web/public/testing/visa-slot-notifier.zip",
     "build:site": "npm run zip -w extension && npm run copy-extension-zip && npm run build -w web",
     "deploy": "npm run build:site && npx -y netlify-cli@latest deploy --prod --filter api --dir \"$PWD/web/dist\" --functions \"$PWD/api/functions\""
   }

@@ -1,8 +1,8 @@
 # Visa Slot Notifier
 
-A free, community-powered U.S. visa appointment tracker. People who are already
-on the official scheduling site report openings they can see, and anyone whose
-filters match gets a direct Telegram message.
+A free, community-powered U.S. visa appointment tracker. People who see an
+opening on the official scheduling site share it from the extension, and anyone
+whose filters match gets a direct Telegram message.
 
 Not affiliated with any U.S. government agency, embassy, consulate, or visa
 scheduling provider. Alerts are informational: people book on the official site
@@ -15,11 +15,12 @@ These hold for every part of the project.
 1. **Free.** Every alert goes to every matching subscriber immediately. There is
    no paid tier and no delayed public tier.
 2. **Donations unlock nothing.** The donate button is a thank-you link only.
-3. **No booking, no automation.** The extension never clicks, types, fills
-   forms, or books on the scheduling site. It only reads dates already on screen.
+3. **No automation on the scheduling site.** The site's terms forbid access
+   through bots, crawlers, or scripts. The extension never runs on, reads,
+   clicks, or books on it. People share dates they saw by hand.
 4. **No credentials.** We never ask for, store, or transmit visa-site logins,
    passwords, payment details, or applicant personal data.
-5. **No screenshots.** The extension sends structured slot data only.
+5. **No screenshots.** A share is structured slot data only.
 6. **One alert per opening.** Reports of the same post, visa class, appointment
    kind, and date are one slot. A subscriber gets at most one message for a slot
    within a 12-hour wave, however many people report it.
@@ -41,11 +42,11 @@ The canonical lists and the slot key live in `shared/`.
 | Path | Purpose |
 | --- | --- |
 | `shared/` | Catalog, slot key, and validation shared by the extension and API |
-| `extension/` | Chrome extension (WXT, Manifest V3): settings popup and slot reporter |
+| `extension/` | Chrome extension (WXT, Manifest V3): settings popup, share calendar, and right-click share |
 | `web/` | Public website (Astro) deployed to Netlify |
 | `api/src/` | MongoDB access: slot waves, subscribers, deliveries |
 | `api/scripts/` | `db:check` and `db:indexes` against the database in `.env` |
-| `api/functions/` | Netlify Functions: report ingest, Telegram webhook, public board |
+| `api/functions/` | Netlify Functions: date sharing, subscription settings, Telegram webhook |
 
 ## Stack
 
@@ -90,8 +91,8 @@ to point Telegram back at `https://freevisaslotnotifier.com/api/telegram`.
 
 ## Extension
 
-The popup creates two random IDs on first run: an `installId` for reports and
-a secret `linkKey` that connects Telegram through
+The popup creates a random secret `linkKey` on first run. It connects Telegram
+through
 `t.me/VisaSlotNotifierForAllFreeBot?start=<linkKey>`. The server stores only a
 hash of the `linkKey`. Filters are read and saved with `POST /api/subscription`.
 
@@ -111,57 +112,42 @@ which talks to `https://freevisaslotnotifier.com`.
 `/testing`. Nothing on the public site links to it. Share
 `https://freevisaslotnotifier.com/testing` with testers.
 
-### Slot reporter
+### Sharing a date
 
-On `https://www.usvisascheduling.com`, the extension reads the calendar data
-the site already loads for its OFC and consular calendars (routes ending in
-`schedule-days`). It never clicks, types, or sends its own requests to the site.
-It sends only post, visa class (chosen in the popup, since the page does not
-show it), OFC or consular, and up to 10 dates. The same calendar is not sent
-again for 10 minutes.
+The extension never runs on `usvisascheduling.com`. It has no content scripts
+and no permission for that site. A person who sees an open date there opens
+the popup, picks the post, OFC or consular, and visa class, taps the open days
+on a month calendar, and presses **Share**. The popup remembers the last post,
+type, and visa class.
 
-To try it without an account, the local API serves a mock scheduler:
-`http://localhost:8787/dev/ofc-schedule` (loads days with fetch) and
-`http://localhost:8787/dev/schedule` (with XHR). Its dates are in August 2028.
-Delete them afterwards with:
+A right-click item, "Share this date with Visa Slot Notifier", appears for
+highlighted text. Chrome passes only that text to the background script, which
+finds full dates in it (`src/dates.ts`) and opens the popup with them
+pre-selected. Nothing is sent until the user presses Share.
+
+To try it locally, share dates in August 2028 so they never look like real
+openings, then delete them with:
 
 ```sh
 npm run dev:cleanup -w api
 ```
 
-## Report endpoint
+## Share endpoint
 
-The extension sends `POST /api/report`:
+The popup sends `POST /api/share`:
 
 ```json
 {
-  "installId": "random-id-from-the-extension",
+  "linkKey": "the-browser's-link-secret",
   "post": "mumbai",
   "visaClass": "h1b",
   "kind": "ofc",
-  "dates": ["2027-01-05", "2027-01-12"]
+  "dates": ["2027-01-05"]
 }
 ```
 
-Up to 10 dates per report, from yesterday to two years ahead. Each browser may
-send 20 reports per 10 minutes and each IP 60. Only the report that opens a new
-12-hour wave for a slot sends alerts; everyone else's report just adds to the
-count.
-
-To check the whole path against Atlas and Telegram, sending test-labeled alerts
-only to the few chats that match:
-
-```sh
-npm run report:simulate -w api -- mumbai h1b ofc 2027-06-15 25
-```
-
-It refuses to run if more than three chats match, and deletes what it created.
-
-## Deploy
-
-```sh
-npm run deploy
-```
-
-Netlify needs `MONGODB_URI`, `MONGODB_DB`, `TELEGRAM_BOT_TOKEN`, and
-`TELEGRAM_WEBHOOK_SECRET` set as environment variables.
+Only a browser linked to a Telegram chat can share (403 otherwise). Up to 10
+dates per share, from yesterday to two years ahead. Each chat may share 10
+times an hour and each IP 30. A share that opens a new 12-hour wave for a slot
+alerts every matching subscriber right away, except the person who shared;
+later shares in the same wave send nothing.

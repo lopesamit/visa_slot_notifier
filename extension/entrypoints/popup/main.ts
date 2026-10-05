@@ -15,10 +15,11 @@ import {
   type Filters,
 } from "../../src/api";
 import { getIdentity } from "../../src/identity";
-import { renderReporter } from "./reporter";
+import { renderShare, renderShareHint } from "./share";
 import "./style.css";
 
 const app = document.getElementById("app")!;
+const shareRoot = document.getElementById("share")!;
 const stateLabel = document.getElementById("state")!;
 if (DONATIONS_ENABLED) {
   const kofi = document.getElementById("kofi")!;
@@ -43,6 +44,7 @@ function setState(text: string, on = false) {
 
 function showError(error: unknown) {
   setState("");
+  shareRoot.innerHTML = "";
   app.innerHTML = `<p class="error"></p><button class="primary" id="retry">Try again</button>`;
   app.querySelector(".error")!.textContent = errorMessage(error);
   app.querySelector("#retry")!.addEventListener("click", load);
@@ -62,8 +64,9 @@ async function load() {
 
 function showConnect(waiting = false) {
   setState("Not connected");
+  renderShareHint(shareRoot);
   app.innerHTML = `
-    <p>Get a Telegram message when someone on the official scheduling site sees a date you want.</p>
+    <p>Get a Telegram message when someone shares an open date you want.</p>
     <p class="muted">Press <b>Start</b> in Telegram to connect this browser. We never ask for your visa-site login.</p>
     <div class="row">
       <button class="primary" id="connect">Connect Telegram</button>
@@ -146,6 +149,7 @@ function summary(filters: Filters): { text: string; tone: "muted" | "warn" } {
 
 function showSettings(filters: Filters) {
   window.clearTimeout(pollTimer);
+  void renderShare(shareRoot, linkKey);
   setState(filters.paused ? "Paused" : "Connected", !filters.paused);
   app.innerHTML = `
     <form id="filters">
@@ -207,4 +211,3 @@ function showSettings(filters: Filters) {
 }
 
 load();
-renderReporter(document.getElementById("reporter")!);

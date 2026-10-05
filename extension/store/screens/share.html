@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>share</title>
+    <link rel="stylesheet" href="./shot.css" />
+  </head>
+  <body>
+    <div class="shot">
+      <div class="copy">
+        <h1>Saw open dates?<br /><em>Tap them.</em> Share once.</h1>
+        <p>Everyone watching gets a Telegram alert right away. Or highlight a date anywhere and right-click to share it.</p>
+      </div>
+      <div class="popup">
+        <header class="top"><span>Visa Slot Notifier</span><span class="state">Connected</span></header>
+        <section class="reporter">
+          <h2 class="section-title">Share a date you see</h2>
+          <label class="field">Post <select><option>Mumbai</option></select></label>
+          <label class="field">Type <select><option>OFC</option></select></label>
+          <label class="field">Visa class <select><option>H-1B</option></select></label>
+          <div class="cal">
+            <div class="cal-head"><span class="cal-nav">‹</span><span>January 2027</span><span class="cal-nav">›</span></div>
+            <div class="cal-grid" id="grid"></div>
+          </div>
+          <p class="small picked">12 Jan, 14 Jan, 19 Jan · <span class="link">Clear</span></p>
+          <button class="primary wide">Share 3 dates</button>
+          <p class="small ok">Shared 3 new dates. 27 alerts sent on Telegram.</p>
+        </section>
+        <footer class="foot">Alerts are free.</footer>
+      </div>
+    </div>
+    <script>
+      const grid = document.getElementById("grid");
+      const on = [12, 14, 19];
+      grid.innerHTML =
+        ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => `<span class="cal-dow">${d}</span>`).join("") +
+        "<span></span>".repeat(5) +
+        Array.from({ length: 31 }, (_, i) => `<span class="day ${on.includes(i + 1) ? "on" : ""}">${i + 1}</span>`).join("");
+    </script>
+  </body>
+</html>

@@ -1,8 +1,12 @@
 import { MongoClient } from "mongodb";
 import { collections } from "../src/db";
-import { MOCK_DATES } from "./mock-scheduler";
 
-/** Deletes the slots and deliveries created by reports from the mock scheduler. */
+/**
+ * Deletes test shares: slots dated in August 2028 and their deliveries. The
+ * local API accepts only that month, so test shares never look like real openings.
+ */
+const TEST_MONTH = "2028-08";
+
 const uri = process.env.MONGODB_URI;
 if (!uri) {
   console.error("Set MONGODB_URI in .env at the repo root.");
@@ -12,11 +16,9 @@ if (!uri) {
 const client = await new MongoClient(uri).connect();
 try {
   const { slotEvents, deliveries } = collections(client.db(process.env.MONGODB_DB || "visa_slot_notifier"));
-  const dates = [...MOCK_DATES.ofc, ...MOCK_DATES.consular];
-  const datePattern = dates.map((d) => d.replace(/-/g, "\\-")).join("|");
-  const slots = await slotEvents.deleteMany({ date: { $in: dates } });
-  const sent = await deliveries.deleteMany({ waveId: { $regex: `\\|(${datePattern})@` } });
-  console.log(`Deleted ${slots.deletedCount} mock slots and ${sent.deletedCount} deliveries.`);
+  const slots = await slotEvents.deleteMany({ date: { $regex: `^${TEST_MONTH}-` } });
+  const sent = await deliveries.deleteMany({ waveId: { $regex: `\\|${TEST_MONTH}-\\d\\d@` } });
+  console.log(`Deleted ${slots.deletedCount} test slots and ${sent.deletedCount} deliveries.`);
 } finally {
   await client.close();
 }

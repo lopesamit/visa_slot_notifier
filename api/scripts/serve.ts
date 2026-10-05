@@ -1,7 +1,6 @@
 import { createServer, type IncomingMessage } from "node:http";
-import report from "../functions/report";
+import share from "../functions/share";
 import subscription from "../functions/subscription";
-import { mockDaysResponse, mockSchedulerPage } from "./mock-scheduler";
 
 /**
  * Runs the API functions on localhost for the extension's dev build. Uses the
@@ -10,16 +9,28 @@ import { mockDaysResponse, mockSchedulerPage } from "./mock-scheduler";
 type Handler = (request: Request, context?: { ip?: string }) => Promise<Response>;
 
 const routes: Record<string, Handler> = {
-  "/api/report": report,
+  "/api/share": share,
   "/api/subscription": subscription,
 };
 
-const mockPages: Record<string, "ofc" | "consular"> = {
-  "/dev/ofc-schedule": "ofc",
-  "/dev/schedule": "consular",
-};
-
 const port = Number(process.env.PORT || 8787);
+
+/**
+ * The local API uses the live database and bot, so a test share would alert
+ * real subscribers. Only August 2028 dates are accepted here; `dev:cleanup`
+ * deletes them.
+ */
+const TEST_MONTH = "2028-08";
+
+function realDateShare(path: string, body: Buffer): boolean {
+  if (path !== "/api/share") return false;
+  try {
+    const { dates } = JSON.parse(body.toString()) as { dates?: unknown };
+    return !Array.isArray(dates) || dates.some((d) => typeof d !== "string" || !d.startsWith(`${TEST_MONTH}-`));
+  } catch {
+    return false;
+  }
+}
 
 const toHeaders = (req: IncomingMessage) =>
   new Headers(
@@ -30,19 +41,6 @@ const toHeaders = (req: IncomingMessage) =>
 
 createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://localhost:${port}`);
-
-  const mockKind = mockPages[url.pathname.replace(/\/$/, "")];
-  if (mockKind && req.method === "GET") {
-    res.writeHead(200, { "content-type": "text/html" }).end(mockSchedulerPage(mockKind));
-    return;
-  }
-  if (url.pathname === "/dev/custom-actions/" && req.method === "POST") {
-    const route = url.searchParams.get("route") ?? "";
-    const kind = route.includes("-ofc-") ? "ofc" : "consular";
-    res.writeHead(200, { "content-type": "application/json" }).end(mockDaysResponse(kind));
-    return;
-  }
-
   const handler = routes[url.pathname];
   if (!handler || req.method !== "POST") {
     res.writeHead(404).end("Not found");
@@ -51,10 +49,19 @@ createServer(async (req, res) => {
 
   const chunks: Buffer[] = [];
   for await (const chunk of req) chunks.push(chunk as Buffer);
+  const body = Buffer.concat(chunks);
+
+  if (realDateShare(url.pathname, body)) {
+    res
+      .writeHead(400, { "content-type": "application/json" })
+      .end(JSON.stringify({ error: "Local testing: share only August 2028 dates, so real subscribers are not alerted." }));
+    console.log(`400 ${url.pathname} (blocked a non-test date)`);
+    return;
+  }
 
   try {
     const response = await handler(
-      new Request(url, { method: "POST", headers: toHeaders(req), body: Buffer.concat(chunks) }),
+      new Request(url, { method: "POST", headers: toHeaders(req), body }),
       { ip: req.socket.remoteAddress },
     );
     res.writeHead(response.status, Object.fromEntries(response.headers));
@@ -66,5 +73,4 @@ createServer(async (req, res) => {
   }
 }).listen(port, () => {
   console.log(`API on http://localhost:${port} (routes: ${Object.keys(routes).join(", ")})`);
-  console.log(`Mock scheduler: http://localhost:${port}/dev/ofc-schedule and /dev/schedule`);
 });

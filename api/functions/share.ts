@@ -1,9 +1,9 @@
 import { createHash } from "node:crypto";
 import { getDb } from "../src/db";
-import { parseReport, processReport } from "../src/report";
+import { parseShare, processShare } from "../src/share";
 import { getTelegram } from "../src/telegram/client";
 
-export const config = { path: "/api/report", method: "POST" };
+export const config = { path: "/api/share", method: "POST" };
 
 const MAX_BODY_BYTES = 4096;
 
@@ -19,7 +19,7 @@ const ipKey = (ip: string | null | undefined) =>
 
 export default async (request: Request, context?: { ip?: string }): Promise<Response> => {
   const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) return json(413, { error: "Report too large" });
+  if (raw.length > MAX_BODY_BYTES) return json(413, { error: "Request too large" });
 
   let body: unknown;
   try {
@@ -28,17 +28,22 @@ export default async (request: Request, context?: { ip?: string }): Promise<Resp
     return json(400, { error: "Body must be JSON" });
   }
 
-  const report = parseReport(body);
-  if (typeof report === "string") return json(400, { error: report });
+  const share = parseShare(body);
+  if (typeof share === "string") return json(400, { error: share });
 
   try {
-    const outcome = await processReport(await getDb(), getTelegram(), report, {
+    const outcome = await processShare(await getDb(), getTelegram(), share, {
       ipKey: ipKey(context?.ip ?? request.headers.get("x-nf-client-connection-ip")),
     });
-    if (outcome.status === "rate_limited") return json(429, { error: "Too many reports" });
-    return json(200, { ok: true, newSlots: outcome.newSlots });
+    if (outcome.status === "not_connected") {
+      return json(403, { error: "Connect Telegram before sharing a date" });
+    }
+    if (outcome.status === "rate_limited") {
+      return json(429, { error: "You have shared a lot this hour. Try again later." });
+    }
+    return json(200, { ok: true, newSlots: outcome.newSlots, alerted: outcome.alerts.sent });
   } catch (error) {
-    console.error("report failed", error);
-    return json(500, { error: "Could not record report" });
+    console.error("share failed", error);
+    return json(500, { error: "Could not share this date" });
   }
 };

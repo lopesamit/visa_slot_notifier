@@ -83,7 +83,7 @@ export function filtersKeyboard(s: Subscriber): InlineKeyboard {
 export const welcomeText = () =>
   [
     "<b>Visa Slot Notifier</b>",
-    "Free alerts when someone on the official U.S. scheduling site sees an appointment date that matches what you are watching.",
+    "Free alerts when someone shares an open U.S. visa appointment date that matches what you are watching.",
     "",
     "We never ask for your visa-site login, and we never book for you. You book on the official site yourself.",
     "",
@@ -101,7 +101,7 @@ export const linkedText = () =>
 export const helpText = () =>
   [
     "<b>How this works</b>",
-    "People using our Chrome extension on the official scheduling site report the dates they can see. When a date matches your filters, you get one message, however many people saw it.",
+    "When someone sees an open date on the official scheduling site, they share it with one click in our Chrome extension. When a date matches your filters, you get one message, however many people shared it.",
     "",
     "/filters choose posts, visa classes, and OFC or consular",
     "/dates 2027-01-01 2027-03-31 limit to a date range (/dates any to clear)",
@@ -136,7 +136,7 @@ export function slotAlertText(slot: Slot, options: { test?: boolean } = {}): str
     `<b>${heading}</b>`,
     `Date seen: ${formatDate(slot.date)}`,
     "",
-    "Someone on the official scheduling site just saw this date. Check there and book it yourself. It may already be gone.",
+    "Someone just saw this date on the official scheduling site and shared it. Check there and book it yourself. It may already be gone.",
     "",
     "/pause to stop alerts",
   ]
