@@ -1,0 +1,55 @@
+html, body { margin: 0; height: 100%; }
+body {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(40% 45% at 78% 30%, rgb(79 224 166 / 0.22), transparent 70%),
+    radial-gradient(35% 40% at 15% 10%, rgb(200 245 74 / 0.14), transparent 70%),
+    #090d0b;
+  font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+}
+.shot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 72px;
+  width: 1120px;
+  color: #edf3ef;
+}
+.copy h1 {
+  margin: 0 0 12px;
+  font-family: Georgia, "Palatino Linotype", serif;
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.copy h1 em { font-style: italic; color: #c8f54a; }
+.copy p { margin: 0; max-width: 22rem; color: #9aa9a1; font-size: 18px; }
+.popup {
+  width: 360px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #f3efe6;
+  color: #1a1814;
+  box-shadow: 0 40px 80px rgb(0 0 0 / 0.45);
+}
+.top, .foot { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; }
+.top { border-bottom: 1px solid #d9d2c5; font-family: Palatino, Georgia, serif; font-size: 16px; font-weight: 600; }
+.state { color: #145c49; font-family: "Segoe UI", sans-serif; font-size: 12px; font-weight: 600; }
+main { padding: 12px 14px 4px; }
+p { margin: 0 0 10px; }
+.muted { color: #5e584e; }
+.primary { padding: 8px 14px; border: 0; border-radius: 999px; background: #145c49; color: #f3faf7; font: inherit; font-weight: 650; }
+.link { padding: 0; border: 0; background: none; color: #145c49; font: inherit; text-decoration: underline; }
+.row { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+.reporter { padding: 10px 14px 4px; border-top: 1px solid #d9d2c5; }
+.toggle { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.small { margin: 6px 0; font-size: 12px; color: #5e584e; }
+.field { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.field select { padding: 4px 6px; border: 1px solid #d9d2c5; border-radius: 6px; font: inherit; }
+.foot { border-top: 1px solid #d9d2c5; color: #5e584e; font-size: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { padding: 3px 9px; border: 1px solid #d9d2c5; border-radius: 999px; }
+.chip.on { border-color: #145c49; background: #145c49; color: #f3faf7; }
+legend { margin: 0 0 5px; font-weight: 600; }
+fieldset { margin: 0 0 10px; padding: 0; border: 0; }

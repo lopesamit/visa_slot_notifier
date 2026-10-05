@@ -5,7 +5,7 @@ import { kofiUrl, showDonate } from "../site";
 
 <Base
   title="Privacy"
-  description="What Visa Slot Notifier stores, and what it never asks for."
+  description="What Visa Slot Notifier stores, how the Chrome extension uses data, and what it never asks for."
 >
   <main>
     <section class="page-hero">
@@ -14,7 +14,7 @@ import { kofiUrl, showDonate } from "../site";
         <h1 class="reveal d1">We keep <em>very little.</em></h1>
         <p class="lede reveal d2">
           This service reports appointment dates. It is not a place to enter a visa
-          application, and it never needs your login.
+          application, and it never needs your visa-site login.
         </p>
       </div>
     </section>
@@ -27,12 +27,41 @@ import { kofiUrl, showDonate } from "../site";
           <li>A random id for the browser that sent the report, used only to limit floods.</li>
           <li>Your Telegram chat id and the filters you choose, so we know where to send a match.</li>
         </ul>
+
+        <h2>Chrome extension</h2>
+        <p>
+          The extension has two jobs: connect Telegram so you can set filters, and
+          share dates already shown on the official scheduling site
+          (usvisascheduling.com). Data is sent only over HTTPS to
+          freevisaslotnotifier.com.
+        </p>
+        <p>On your computer it stores:</p>
+        <ul>
+          <li>A random install id, used only to rate-limit reports.</li>
+          <li>A secret used to link this browser to your Telegram chat. The server stores only a hash of that secret.</li>
+          <li>Your alert filters and whether you chose to share calendar dates.</li>
+        </ul>
+        <p>If you turn on sharing and open the official calendar, it sends:</p>
+        <ul>
+          <li>Post, visa class (the one you picked in the popup), OFC or consular, and up to 10 dates.</li>
+        </ul>
+        <p>
+          Those dates are used only to alert people whose filters match. We do not sell
+          this data, show ads from it, or use it for anything else.
+        </p>
+        <p>
+          Disconnect Telegram in the popup to drop the link. Send
+          <strong>/stop</strong> to the bot to delete your chat id and filters on the
+          server. Removing the extension deletes what was stored in this browser.
+        </p>
+
         <h2>What we never ask for</h2>
         <ul>
           <li>Visa-site usernames, passwords, or security answers.</li>
           <li>Passport numbers, payment cards, or application answers.</li>
-          <li>Screenshots or the contents of the scheduling page.</li>
+          <li>Screenshots or the contents of the scheduling page, other than the dates above.</li>
         </ul>
+
         <h2>Website visits</h2>
         <p>
           We count page views with{" "}
@@ -45,7 +74,7 @@ import { kofiUrl, showDonate } from "../site";
         <p>
           Telegram delivers the alert. Once a chat id is stored, it is used only to send
           matching openings and to remember your filters. Send <strong>/stop</strong> to the
-          bot to delete them.
+          bot to delete them. Telegram has its own privacy policy.
         </p>
         {
           showDonate && (
