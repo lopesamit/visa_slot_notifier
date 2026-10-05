@@ -4,8 +4,9 @@ const LOCAL_API = "http://localhost:8787";
 const LIVE_API = "https://freevisaslotnotifier.com";
 
 // `wxt` (dev) talks to `npm run serve -w api`; `wxt build` talks to the live site.
+// No host permission: the API allows extension origins with CORS headers.
 export default defineConfig({
-  manifest: ({ mode }) => ({
+  manifest: () => ({
     name: "Visa Slot Notifier",
     description:
       "Free Telegram alerts for U.S. visa appointment dates. Never asks for your login and never books for you.",
@@ -24,7 +25,6 @@ export default defineConfig({
         128: "icon-128.png",
       },
     },
-    host_permissions: [`${mode === "development" ? LOCAL_API : LIVE_API}/*`],
   }),
   vite: ({ mode }) => ({
     define: {

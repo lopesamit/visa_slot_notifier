@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage } from "node:http";
 import share from "../functions/share";
 import subscription from "../functions/subscription";
+import { withCors } from "../src/cors";
 
 /**
  * Runs the API functions on localhost for the extension's dev build. Uses the
@@ -41,8 +42,8 @@ const toHeaders = (req: IncomingMessage) =>
 
 createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://localhost:${port}`);
-  const handler = routes[url.pathname];
-  if (!handler || req.method !== "POST") {
+  const route = routes[url.pathname];
+  if (!route || (req.method !== "POST" && req.method !== "OPTIONS")) {
     res.writeHead(404).end("Not found");
     return;
   }
@@ -51,17 +52,23 @@ createServer(async (req, res) => {
   for await (const chunk of req) chunks.push(chunk as Buffer);
   const body = Buffer.concat(chunks);
 
-  if (realDateShare(url.pathname, body)) {
-    res
-      .writeHead(400, { "content-type": "application/json" })
-      .end(JSON.stringify({ error: "Local testing: share only August 2028 dates, so real subscribers are not alerted." }));
-    console.log(`400 ${url.pathname} (blocked a non-test date)`);
-    return;
-  }
+  const handler: Handler = realDateShare(url.pathname, body)
+    ? withCors(async () => {
+        console.log(`blocked a non-test date on ${url.pathname}`);
+        return new Response(
+          JSON.stringify({ error: "Local testing: share only August 2028 dates, so real subscribers are not alerted." }),
+          { status: 400, headers: { "content-type": "application/json" } },
+        );
+      })
+    : route;
 
   try {
     const response = await handler(
-      new Request(url, { method: "POST", headers: toHeaders(req), body }),
+      new Request(url, {
+        method: req.method,
+        headers: toHeaders(req),
+        body: req.method === "POST" ? body : undefined,
+      }),
       { ip: req.socket.remoteAddress },
     );
     res.writeHead(response.status, Object.fromEntries(response.headers));

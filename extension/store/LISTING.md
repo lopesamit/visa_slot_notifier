@@ -2,7 +2,7 @@
 
 Copy these fields into https://chrome.google.com/webstore/devconsole after the zip uploads.
 
-Upload zip: `extension/.output/visa-slot-notifier-0.2.0-chrome.zip`  
+Upload zip: `extension/.output/visa-slot-notifier-0.2.1-chrome.zip`  
 Store icon (128×128): `extension/assets/icon-128.png`  
 Screenshots: `extension/store/screenshots/`
 
@@ -72,9 +72,7 @@ Stores on this device only: a secret used to link Telegram, the post, appointmen
 
 Adds one right-click item, “Share this date with Visa Slot Notifier”, shown only when the user has highlighted text. When the user clicks it, the extension looks for a date in that highlighted text and opens the popup with the date pre-selected; the user reviews it and presses Share. Nothing is sent until they do. The extension has no content scripts and does not read pages.
 
-### Host permission: https://freevisaslotnotifier.com/*
-
-Sends the dates the user chooses to share, and reads/saves their Telegram alert filters, on our own HTTPS API. The extension does not access any other website.
+No host permissions. The popup calls our own API at https://freevisaslotnotifier.com, which allows extension origins with CORS headers.
 
 ---
 
