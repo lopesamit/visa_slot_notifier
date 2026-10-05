@@ -988,6 +988,94 @@ p {
   color: var(--kofi);
 }
 
+.guide-heading {
+  margin: 1.5rem 0 1.6rem;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400;
+}
+
+.guide-heading .kicker {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.guide-steps {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0 0 3.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.guide-step img {
+  justify-self: center;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 560px;
+  border-radius: var(--radius-sm);
+  background: #0d1310;
+}
+
+.guide-text h3 {
+  margin: 0.9rem 0 0.6rem;
+  font-size: 1.3rem;
+}
+
+.guide-text p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.guide-text strong {
+  color: var(--text);
+}
+
+.guide-num {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+}
+
+.guide-shortcut {
+  margin-bottom: 3.5rem;
+  border-color: rgb(200 245 74 / 0.35);
+}
+
+.guide-rules {
+  margin-bottom: 2rem;
+}
+
+.guide-foot {
+  max-width: 44rem;
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 760px) {
+  .guide-step {
+    grid-template-columns: 1fr;
+  }
+}
+
 code {
   padding: 0.1em 0.4em;
   border-radius: 6px;

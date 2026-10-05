@@ -1,0 +1,173 @@
+---
+import { BOT_USERNAME } from "@visa-slot/shared";
+import Base from "../layouts/Base.astro";
+
+const botUrl = `https://t.me/${BOT_USERNAME}`;
+
+type Step = { title: string; body: string; image: string; alt: string; width: number; height: number };
+
+const setup: Step[] = [
+  {
+    title: "Install the extension and pin it",
+    body: "Add <strong>Visa Slot Notifier</strong> to Chrome, Brave, or Edge on a computer. Click the puzzle icon at the top right of the browser, then the pin next to Visa Slot Notifier, so its lime bell is always one click away.",
+    image: "/guide/pin.png",
+    alt: "The browser's extensions menu with the pin button next to Visa Slot Notifier highlighted.",
+    width: 1440,
+    height: 660,
+  },
+  {
+    title: "Connect Telegram",
+    body: `Click the bell, then <strong>Connect Telegram</strong>. Telegram opens <a href="${botUrl}" target="_blank" rel="noopener noreferrer">@${BOT_USERNAME}</a>; press <strong>Start</strong>. Pick what you want alerts for. Only connected people can share, which keeps fake dates out.`,
+    image: "/guide/connect.png",
+    alt: "The extension popup with the Connect Telegram button highlighted.",
+    width: 1120,
+    height: 760,
+  },
+];
+
+const steps: Step[] = [
+  {
+    title: "Look at the official calendar",
+    body: "Log in to the official scheduling site as you normally do and open the OFC or consular calendar. Note the post and the days shown as open. We never touch that site; you just look.",
+    image: "/guide/official.png",
+    alt: "An example appointment calendar for Mumbai OFC in January 2027 with the 12th, 14th, and 19th open.",
+    width: 1240,
+    height: 940,
+  },
+  {
+    title: "Open the bell and check post, type, and visa",
+    body: "Click the lime bell. Scroll to <strong>Share a date you see</strong>. Choose the post, OFC or consular, and your visa class, matching the calendar you are looking at. Next time they are already filled in.",
+    image: "/guide/choose.png",
+    alt: "The Share a date you see section of the popup with Post Mumbai, Type OFC, and Visa class H-1B highlighted.",
+    width: 1120,
+    height: 1400,
+  },
+  {
+    title: "Tap the same days",
+    body: "Use ‹ and › to reach the right month, then tap every open day you see. Tap a day again to unpick it. You can pick up to 10 days at once; they are listed under the calendar.",
+    image: "/guide/tap.png",
+    alt: "The popup calendar for January 2027 with the 12th, 14th, and 19th picked.",
+    width: 1120,
+    height: 1400,
+  },
+  {
+    title: "Press Share",
+    body: "Check the days once more, then press <strong>Share 3 dates</strong> (the number matches what you picked). Everyone watching that post, visa, and type gets a Telegram alert straight away.",
+    image: "/guide/share.png",
+    alt: "The Share 3 dates button highlighted.",
+    width: 1120,
+    height: 1400,
+  },
+  {
+    title: "See it went out",
+    body: "A green line tells you how many dates were new and how many alerts were sent. “Someone already shared” means another person beat you to it, and nobody gets a second alert. You are not alerted about your own share.",
+    image: "/guide/done.png",
+    alt: "The popup after sharing, showing: Shared 3 new dates. 27 alerts sent on Telegram.",
+    width: 1120,
+    height: 1400,
+  },
+];
+
+const shortcut: Step = {
+  title: "Shortcut: right-click a full date",
+  body: "Highlight a date written out in full, like <strong>14 Jan 2027</strong>, <strong>14/01/2027</strong>, or <strong>January 14, 2027</strong>. Right-click and choose <strong>Share this date with Visa Slot Notifier</strong>. The popup opens with that day already picked; check post, type, and visa, then press Share. A plain number like “14” on a calendar has no month or year, so tap it in the popup instead.",
+  image: "/guide/right-click.png",
+  alt: "A highlighted date, 14 Jan 2027, with the right-click menu item Share this date with Visa Slot Notifier highlighted.",
+  width: 1440,
+  height: 760,
+};
+
+const check = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>`;
+const cross = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>`;
+
+const dos = [
+  "Share only days you can see open right now",
+  "Match the post, OFC or consular, and visa class to the calendar",
+  "Share every open day you see, not just the one you want",
+];
+const donts = [
+  "Share dates from rumours or old messages",
+  "Share past dates or days you already booked",
+  "Share again to “boost” a date. One share alerts everyone",
+];
+---
+
+<Base
+  title="How to share a date"
+  description="Step-by-step, with screenshots: share an open U.S. visa appointment date you see so everyone watching gets a free Telegram alert."
+>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="kicker reveal">Share a date</span>
+        <h1 class="reveal d1">Saw an open date? <em>Share it</em> in 30 seconds.</h1>
+        <p class="lede reveal d2">
+          Alerts only exist because people share what they see. Here is exactly what to click,
+          step by step. It takes two minutes to set up once, then a few taps each time.
+        </p>
+      </div>
+    </section>
+
+    <section class="section guide" style="padding-top: 0">
+      <div class="wrap">
+        <h2 class="guide-heading scroll-reveal"><span class="kicker">Once</span>Set up</h2>
+        <ol class="guide-steps">
+          {
+            setup.map((step, i) => (
+              <li class="guide-step scroll-reveal">
+                <div class="guide-text">
+                  <span class="guide-num">{i + 1}</span>
+                  <h3>{step.title}</h3>
+                  <p set:html={step.body} />
+                </div>
+                <img src={step.image} alt={step.alt} width={step.width / 2} height={step.height / 2} loading="lazy" decoding="async" />
+              </li>
+            ))
+          }
+        </ol>
+
+        <h2 class="guide-heading scroll-reveal"><span class="kicker">Every time</span>When you see open dates</h2>
+        <ol class="guide-steps" start={setup.length + 1}>
+          {
+            steps.map((step, i) => (
+              <li class="guide-step scroll-reveal">
+                <div class="guide-text">
+                  <span class="guide-num">{setup.length + i + 1}</span>
+                  <h3>{step.title}</h3>
+                  <p set:html={step.body} />
+                </div>
+                <img src={step.image} alt={step.alt} width={step.width / 2} height={step.height / 2} loading="lazy" decoding="async" />
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="guide-step guide-shortcut card scroll-reveal">
+          <div class="guide-text">
+            <span class="guide-num">★</span>
+            <h3>{shortcut.title}</h3>
+            <p set:html={shortcut.body} />
+          </div>
+          <img src={shortcut.image} alt={shortcut.alt} width={shortcut.width / 2} height={shortcut.height / 2} loading="lazy" decoding="async" />
+        </div>
+
+        <div class="compare guide-rules">
+          <div class="card scroll-reveal">
+            <h3>Please do</h3>
+            <ul class="yes">{dos.map((item) => <li><Fragment set:html={check} />{item}</li>)}</ul>
+          </div>
+          <div class="card scroll-reveal">
+            <h3>Please don’t</h3>
+            <ul class="no">{donts.map((item) => <li><Fragment set:html={cross} />{item}</li>)}</ul>
+          </div>
+        </div>
+
+        <p class="guide-foot scroll-reveal">
+          Sharing needs the extension on a computer for now. Screenshots show example dates; the
+          official site looks different. We are not affiliated with it. Read
+          <a href="/how-it-works">how it works</a> and <a href="/privacy">what a share sends</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+</Base>
