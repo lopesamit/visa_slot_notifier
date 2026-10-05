@@ -104,7 +104,8 @@ export async function renderShare(root: HTMLElement, linkKey: string) {
       selected.clear();
       renderCalendar();
     });
-    button.textContent = dates.length > 1 ? `Share ${dates.length} dates` : "Share this date";
+    button.textContent =
+      dates.length > 1 ? `Share ${dates.length} dates` : dates.length ? "Share this date" : "Tap the dates you see";
     button.disabled = dates.length === 0;
   };
 
