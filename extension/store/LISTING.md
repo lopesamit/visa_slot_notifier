@@ -89,7 +89,7 @@ The extension only loads its own packaged scripts. It talks to https://freevisas
 Check these collection types (and only these):
 
 - **Personally identifiable information** — Telegram chat id, only after the user presses Start in the bot. Used solely to deliver matching alerts and remember filters.
-- **User activity** — the filters they saved, and a short-lived count of their shares, used only for rate limits.
+- **User activity** — the filters they saved, and a 90-day log of the dates they shared (to stop false reports and for rate limits).
 
 Do **not** check: website content, health, financial, authentication information, personal communications, location, web history.
 

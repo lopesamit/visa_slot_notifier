@@ -18,6 +18,18 @@ external_node_modules = ["mongodb"]
     X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
   for = "/testing/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"

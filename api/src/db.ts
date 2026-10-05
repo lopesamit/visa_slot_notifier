@@ -37,6 +37,19 @@ export type Delivery = {
   sentAt: Date;
 };
 
+/** One "Share" press, kept so false reports can be traced to a chat. */
+export type ShareLog = {
+  chatId: number;
+  post: PostId;
+  visaClass: VisaClassId;
+  kind: AppointmentKind;
+  dates: string[];
+  /** Dates that started a new wave and sent alerts. */
+  newDates: string[];
+  alerted: number;
+  at: Date;
+};
+
 export type RateLimitBucket = {
   /** `<scope>:<id>:<window number>` */
   _id: string;
@@ -49,6 +62,7 @@ export const collections = (db: Db) => ({
   subscribers: db.collection<Subscriber>("subscribers"),
   deliveries: db.collection<Delivery>("deliveries"),
   rateLimits: db.collection<RateLimitBucket>("rate_limits"),
+  shares: db.collection<ShareLog>("shares"),
 });
 
 export const isDuplicateKey = (error: unknown) =>
@@ -78,8 +92,10 @@ export async function getDb(): Promise<Db> {
 }
 
 export async function ensureIndexes(db: Db): Promise<void> {
-  const { slotEvents, subscribers, deliveries, rateLimits } = collections(db);
+  const { slotEvents, subscribers, deliveries, rateLimits, shares } = collections(db);
   await Promise.all([
+    shares.createIndex({ at: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 90, name: "shares_ttl_90d" }),
+    shares.createIndex({ chatId: 1, at: -1 }, { name: "shares_by_chat" }),
     rateLimits.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: "rate_limits_ttl" }),
     slotEvents.createIndex({ key: 1 }, { unique: true, name: "slot_key_unique" }),
     slotEvents.createIndex(

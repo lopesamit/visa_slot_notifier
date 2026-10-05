@@ -1,5 +1,6 @@
 import type { Db } from "mongodb";
 import type { Slot } from "@visa-slot/shared";
+import { collections } from "./db";
 import { hitLimit } from "./limits";
 import { findByLinkKey, isLinkKey } from "./links";
 import { alertNewSlots, parseSlots, type AlertRun } from "./report";
@@ -50,8 +51,17 @@ export async function processShare(
       (await hitLimit(db, `share-ip:${options.ipKey}`, perIp.limit, perIp.windowMs, now)));
   if (!allowed) return { status: "rate_limited" };
 
-  return {
-    status: "ok",
-    ...(await alertNewSlots(db, tg, share.slots, { now, skipChatId: sharer.chatId })),
-  };
+  const run = await alertNewSlots(db, tg, share.slots, { now, skipChatId: sharer.chatId });
+  const [{ post, visaClass, kind }] = share.slots;
+  await collections(db).shares.insertOne({
+    chatId: sharer.chatId,
+    post,
+    visaClass,
+    kind,
+    dates: share.slots.map((s) => s.date),
+    newDates: run.newDates,
+    alerted: run.alerts.sent,
+    at: now,
+  });
+  return { status: "ok", ...run };
 }

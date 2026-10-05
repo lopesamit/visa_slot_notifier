@@ -11,7 +11,7 @@ const client = await new MongoClient(uri).connect();
 try {
   const db = client.db(process.env.MONGODB_DB || "visa_slot_notifier");
   await ensureIndexes(db);
-  for (const name of ["slot_events", "subscribers", "deliveries"]) {
+  for (const name of ["slot_events", "subscribers", "deliveries", "shares"]) {
     const indexes = await db.collection(name).indexes();
     console.log(`${name}: ${indexes.map((i) => i.name).join(", ")}`);
   }

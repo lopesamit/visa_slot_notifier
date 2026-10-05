@@ -151,3 +151,13 @@ dates per share, from yesterday to two years ahead. Each chat may share 10
 times an hour and each IP 30. A share that opens a new 12-hour wave for a slot
 alerts every matching subscriber right away, except the person who shared;
 later shares in the same wave send nothing.
+
+## Private dashboard
+
+`/admin` is not linked anywhere and is marked noindex. It asks for the
+`ADMIN_TOKEN` from `.env` (also set in Netlify) and calls `POST /api/admin`
+with it as a bearer token. It shows the last 90 days of shares (with the
+sharer's Telegram name looked up live), openings, and subscriber filters, with
+filters, charts, and CSV export. Every share is logged in the `shares`
+collection, which expires entries after 90 days.
+

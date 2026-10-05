@@ -2,6 +2,7 @@ import { MongoClient, type Db } from "mongodb";
 import { MongoMemoryReplSet } from "mongodb-memory-server";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { collections, ensureIndexes, type Subscriber } from "./db";
+import { dashboardData, isAdminToken } from "./admin";
 import { linkChat } from "./links";
 import { SHARE_LIMITS, parseShare, processShare, type Share } from "./share";
 import type { TelegramApi } from "./telegram/client";
@@ -12,8 +13,8 @@ let db: Db;
 let messages: { chatId: number; text: string }[];
 
 const tg: TelegramApi = {
-  async call() {
-    return undefined as never;
+  async call(method) {
+    return (method === "getChat" ? { first_name: "Test", last_name: "User", username: "tester" } : undefined) as never;
   },
   async sendMessage(chatId, text) {
     messages.push({ chatId, text });
@@ -72,9 +73,25 @@ beforeEach(async () => {
     c.subscribers.deleteMany({}),
     c.deliveries.deleteMany({}),
     c.rateLimits.deleteMany({}),
+    c.shares.deleteMany({}),
   ]);
   await c.subscribers.insertMany([subscriber(1), subscriber(2), subscriber(3, { posts: ["chennai"] })]);
   await linkChat(db, 1, SHARER_KEY, NOW);
+});
+
+describe("isAdminToken", () => {
+  const key = "a".repeat(40);
+  it("accepts only the configured key", () => {
+    expect(isAdminToken(key, key)).toBe(true);
+    expect(isAdminToken(`${key}b`, key)).toBe(false);
+    expect(isAdminToken(null, key)).toBe(false);
+  });
+
+  it("refuses everything when the key is missing or too short", () => {
+    expect(isAdminToken("", "")).toBe(false);
+    expect(isAdminToken("short", "short")).toBe(false);
+    expect(isAdminToken(key, undefined)).toBe(false);
+  });
 });
 
 describe("parseShare", () => {
@@ -93,6 +110,25 @@ describe("processShare", () => {
     const outcome = await processShare(db, tg, share(), { now: NOW });
     expect(outcome).toMatchObject({ status: "ok", newSlots: 1, alerts: { sent: 1 } });
     expect(messages.map((m) => m.chatId)).toEqual([2]);
+  });
+
+  it("logs who shared which dates, for the admin dashboard", async () => {
+    await processShare(db, tg, share({ dates: ["2027-01-05", "2027-01-06"] }), { now: NOW });
+    await processShare(db, tg, share({ dates: ["2027-01-06"] }), { now: NOW });
+    const logs = await collections(db).shares.find({}, { projection: { _id: 0 } }).sort({ _id: 1 }).toArray();
+    expect(logs).toEqual([
+      { chatId: 1, post: "mumbai", visaClass: "h1b", kind: "ofc", dates: ["2027-01-05", "2027-01-06"], newDates: ["2027-01-05", "2027-01-06"], alerted: 2, at: NOW },
+      { chatId: 1, post: "mumbai", visaClass: "h1b", kind: "ofc", dates: ["2027-01-06"], newDates: [], alerted: 0, at: NOW },
+    ]);
+
+    const data = await dashboardData(db, tg, NOW);
+    expect(data.shares).toHaveLength(2);
+    expect(data.shares[0]).toMatchObject({ chatId: 1, dates: ["2027-01-06"], newDates: [], at: NOW.toISOString() });
+    expect(data.sharers).toEqual([{ chatId: 1, name: "Test User", username: "tester" }]);
+    expect(data.openings.map((o) => o.date).sort()).toEqual(["2027-01-05", "2027-01-06"]);
+    expect(data.subscribers).toHaveLength(3);
+    expect(data.subscribers.filter((s) => s.linked)).toHaveLength(1);
+    expect(data.subscribers[0]).not.toHaveProperty("chatId");
   });
 
   it("does not alert twice when a second person shares the same date", async () => {

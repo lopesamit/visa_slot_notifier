@@ -11,7 +11,7 @@ const isAllowedOrigin = (origin: string | null): origin is string =>
 const corsHeaders = (origin: string): Record<string, string> => ({
   "access-control-allow-origin": origin,
   "access-control-allow-methods": "POST, OPTIONS",
-  "access-control-allow-headers": "content-type",
+  "access-control-allow-headers": "content-type, authorization",
   "access-control-max-age": "86400",
   vary: "Origin",
 });

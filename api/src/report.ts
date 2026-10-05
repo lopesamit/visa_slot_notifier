@@ -58,7 +58,7 @@ export function parseReport(body: unknown, now: Date = new Date()): Report | str
   return typeof slots === "string" ? slots : { installId, slots };
 }
 
-export type AlertRun = { newSlots: number; alerts: FanOutResult };
+export type AlertRun = { newSlots: number; newDates: string[]; alerts: FanOutResult };
 
 /**
  * Records each slot and alerts subscribers for the ones that start a new wave.
@@ -73,11 +73,11 @@ export async function alertNewSlots(
 ): Promise<AlertRun> {
   const now = options.now ?? new Date();
   const alerts: FanOutResult = { sent: 0, alreadySent: 0, failed: 0, paused: 0 };
-  let newSlots = 0;
+  const newDates: string[] = [];
   for (const slot of slots) {
     const sighting = await recordSighting(db, slot, now);
     if (!sighting.newWave) continue;
-    newSlots++;
+    newDates.push(slot.date);
     if (options.skipChatId !== undefined) {
       await claimDelivery(db, sighting.waveId, options.skipChatId, now);
     }
@@ -87,7 +87,7 @@ export async function alertNewSlots(
     alerts.failed += sent.failed;
     alerts.paused += sent.paused;
   }
-  return { newSlots, alerts };
+  return { newSlots: newDates.length, newDates, alerts };
 }
 
 export type ReportOutcome = { status: "rate_limited" } | ({ status: "ok" } & AlertRun);

@@ -1,4 +1,5 @@
 import { createServer, type IncomingMessage } from "node:http";
+import admin from "../functions/admin";
 import share from "../functions/share";
 import subscription from "../functions/subscription";
 import { withCors } from "../src/cors";
@@ -10,6 +11,7 @@ import { withCors } from "../src/cors";
 type Handler = (request: Request, context?: { ip?: string }) => Promise<Response>;
 
 const routes: Record<string, Handler> = {
+  "/api/admin": admin,
   "/api/share": share,
   "/api/subscription": subscription,
 };

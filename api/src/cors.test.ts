@@ -16,7 +16,7 @@ describe("withCors", () => {
     const response = await handler(request("OPTIONS", EXTENSION));
     expect(response.status).toBe(204);
     expect(response.headers.get("access-control-allow-origin")).toBe(EXTENSION);
-    expect(response.headers.get("access-control-allow-headers")).toBe("content-type");
+    expect(response.headers.get("access-control-allow-headers")).toBe("content-type, authorization");
   });
 
   it("allows an extension to read the response", async () => {
