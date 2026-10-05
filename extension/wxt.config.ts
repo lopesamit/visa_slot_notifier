@@ -11,6 +11,20 @@ export default defineConfig({
     description:
       "Free Telegram alerts for U.S. visa appointment dates. Never asks for your login and never books for you.",
     permissions: ["storage"],
+    icons: {
+      16: "icon-16.png",
+      32: "icon-32.png",
+      48: "icon-48.png",
+      128: "icon-128.png",
+    },
+    action: {
+      default_icon: {
+        16: "icon-16.png",
+        32: "icon-32.png",
+        48: "icon-48.png",
+        128: "icon-128.png",
+      },
+    },
     host_permissions: [`${mode === "development" ? LOCAL_API : LIVE_API}/*`],
   }),
   vite: ({ mode }) => ({
