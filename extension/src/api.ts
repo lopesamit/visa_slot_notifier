@@ -60,5 +60,17 @@ export const saveFilters = (linkKey: string, filters: Filters) =>
     dateTo: filters.dateTo ?? undefined,
   });
 
+/** People with alerts on and filters chosen. Null when the count cannot be loaded. */
+export async function fetchWatching(): Promise<number | null> {
+  try {
+    const response = await fetch(`${__API_BASE__}/api/stats`);
+    if (!response.ok) return null;
+    const data = (await response.json()) as { watching?: unknown };
+    return Number.isInteger(data.watching) ? (data.watching as number) : null;
+  } catch {
+    return null;
+  }
+}
+
 export const disconnectTelegram = (linkKey: string) =>
   post<Subscription>("/api/subscription", { action: "disconnect", linkKey });

@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     q: "Why haven’t I received an alert yet?",
-    a: "Alerts depend on people sharing what they see. We are new, so openings may be quiet at first. Every person who shares a date they see makes alerts faster for everyone.",
+    a: "We are new, so you may get few alerts at first. A message goes out only when someone shares a date they can see right then. Every person who shares one makes the next alert more likely.",
   },
   {
     q: "Is this an official government service?",
@@ -51,11 +51,17 @@ const faqs = [
       <div class="wrap hero-grid">
         <div>
           <span class="eyebrow reveal"><span class="pulse" aria-hidden="true"></span>Free U.S. visa slot alerts for India</span>
-          <h1 class="reveal d1">Stop refreshing. <em>We’ll tell you</em> when a slot opens.</h1>
+          <h1 class="reveal d1">Someone shares a date they see. <em>You get one message.</em></h1>
           <p class="lede reveal d2">
-            When someone sees an open date on the official site and shares it, everyone
-            watching for it gets one Telegram message. Instantly, and free.
+            A person looking at the official scheduling site shares the open days they can see.
+            Everyone watching for that post and visa gets one Telegram message.
+            Check the official site and book it yourself.
           </p>
+          <p class="quiet reveal d2">
+            We are new, so you may get few alerts at first. Nothing is sent until someone
+            shares a date they can see right then.
+          </p>
+          <p class="watching" id="watching" hidden></p>
           <div class="actions reveal d3">
             <a class="button" href={botUrl} target="_blank" rel="noopener noreferrer">
               Get alerts on Telegram
@@ -110,7 +116,7 @@ const faqs = [
       <div class="wrap">
         <div class="section-head scroll-reveal">
           <h2><span class="kicker">How it works</span>Three steps. <em>No bots</em> touching your account.</h2>
-          <p>People already checking the official site share what they see, by hand. Everyone else gets told the moment it matters.</p>
+          <p>People already checking the official site share what they see, by hand. Everyone else gets one message as soon as that person shares it.</p>
         </div>
         <ol class="steps-grid">
           <li class="step scroll-reveal">
@@ -123,7 +129,7 @@ const faqs = [
           </li>
           <li class="step scroll-reveal">
             <h3>You get one message</h3>
-            <p>Everyone whose filters match is alerted at once. Open the official site and book it yourself.</p>
+            <p>Everyone whose filters match gets one message. Open the official site and book it yourself. It may already be gone.</p>
           </li>
         </ol>
       </div>
@@ -175,7 +181,7 @@ const faqs = [
       <div class="wrap">
         <div class="section-head scroll-reveal">
           <h2><span class="kicker">Coverage</span>Every U.S. post <em>in India.</em></h2>
-          <p>Version 1 watches the five U.S. posts in India, for the most common visa classes, for both OFC and consular appointments.</p>
+          <p>You can follow the five U.S. posts in India, for the most common visa classes, for both OFC and consular appointments.</p>
         </div>
         <div class="coverage">
           <ul class="post-list scroll-reveal">
@@ -218,8 +224,8 @@ const faqs = [
     <section class="section" style="padding-top: 0">
       <div class="wrap">
         <div class="cta scroll-reveal">
-          <h2>Be first to know when a <em>date opens.</em></h2>
-          <p>Press Start in Telegram, pick your post and visa class, and you’re set.</p>
+          <h2>Get a message when someone <em>shares a date</em> you want.</h2>
+          <p>Press Start in Telegram and pick your post and visa class. We are new, so the first alerts may be few.</p>
           <div class="actions">
             <a class="button" href={botUrl} target="_blank" rel="noopener noreferrer">
               Get alerts on Telegram
@@ -237,4 +243,18 @@ const faqs = [
       </div>
     </section>
   </main>
+  <script is:inline define:vars={{ statsUrl: import.meta.env.DEV ? "http://localhost:8787/api/stats" : "/api/stats" }}>
+    fetch(statsUrl)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        const count = data && data.watching;
+        const line = document.getElementById("watching");
+        if (!line || !Number.isInteger(count) || count < 1) return;
+        const number = document.createElement("strong");
+        number.textContent = String(count);
+        line.append(number, document.createTextNode(count === 1 ? " person is watching for a date." : " people are watching for a date."));
+        line.hidden = false;
+      })
+      .catch(() => {});
+  </script>
 </Base>

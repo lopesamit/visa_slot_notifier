@@ -371,6 +371,23 @@ p {
   color: var(--mint);
 }
 
+.quiet {
+  max-width: 34rem;
+  margin: 0.9rem 0 0;
+  color: var(--dim);
+  font-size: 0.95rem;
+}
+
+.watching {
+  margin: 1.3rem 0 0;
+  font-size: 1.05rem;
+}
+
+.watching strong {
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Telegram preview */
 
 .phone {

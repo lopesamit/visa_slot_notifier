@@ -11,6 +11,7 @@ import {
   ApiError,
   disconnectTelegram,
   fetchSubscription,
+  fetchWatching,
   saveFilters,
   type Filters,
 } from "../../src/api";
@@ -21,6 +22,13 @@ import "./style.css";
 const app = document.getElementById("app")!;
 const shareRoot = document.getElementById("share")!;
 const stateLabel = document.getElementById("state")!;
+const watching = document.getElementById("watching");
+fetchWatching().then((count) => {
+  if (!watching || count === null || count < 1) return;
+  watching.textContent =
+    count === 1 ? "1 person is watching for a date." : `${count} people are watching for a date.`;
+});
+
 if (DONATIONS_ENABLED) {
   const kofi = document.getElementById("kofi")!;
   kofi.setAttribute("href", KOFI_URL);
@@ -66,8 +74,8 @@ function showConnect(waiting = false) {
   setState("Not connected");
   renderShareHint(shareRoot);
   app.innerHTML = `
-    <p>Get a Telegram message when someone shares an open date you want.</p>
-    <p class="muted">Press <b>Start</b> in Telegram to connect this browser. We never ask for your visa-site login.</p>
+    <p>Get a Telegram message when someone shares an open date you want. Check the official site and book it yourself.</p>
+    <p class="muted">We are new, so you may get few alerts at first. Press <b>Start</b> in Telegram to connect this browser. We never ask for your visa-site login.</p>
     <div class="row">
       <button class="primary" id="connect">Connect Telegram</button>
       <button class="link" id="check">I pressed Start</button>

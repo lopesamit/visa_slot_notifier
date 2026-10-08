@@ -3,6 +3,7 @@ import { MongoMemoryReplSet } from "mongodb-memory-server";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { collections, ensureIndexes, type Subscriber } from "./db";
 import { dashboardData, isAdminToken } from "./admin";
+import { publicStats } from "./stats";
 import { linkChat } from "./links";
 import { SHARE_LIMITS, parseShare, processShare, type Share } from "./share";
 import type { TelegramApi } from "./telegram/client";
@@ -106,6 +107,14 @@ describe("parseShare", () => {
 });
 
 describe("processShare", () => {
+  it("counts only people with alerts on and filters chosen", async () => {
+    await collections(db).subscribers.insertMany([
+      subscriber(8, { posts: [] }),
+      subscriber(9, { paused: true }),
+    ]);
+    expect(await publicStats(db)).toEqual({ watching: 3 });
+  });
+
   it("alerts matching users right away, but not the person who shared", async () => {
     const outcome = await processShare(db, tg, share(), { now: NOW });
     expect(outcome).toMatchObject({ status: "ok", newSlots: 1, alerts: { sent: 1 } });

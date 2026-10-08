@@ -53,7 +53,7 @@ function resultText(shared: number, newSlots: number, alerted: number): string {
 export function renderShareHint(root: HTMLElement) {
   root.innerHTML = `
     <h2 class="section-title">Share a date you see</h2>
-    <p class="muted small">Connect Telegram first. Then, when you see open dates on the official site, tap them here and everyone watching gets alerted.</p>`;
+    <p class="muted small">Connect Telegram first. When you see open dates on the official site, tap them here. Everyone watching gets one message and books it themselves.</p>`;
 }
 
 /** The user picks dates they saw themselves; nothing reads the scheduling site. */
@@ -72,7 +72,7 @@ export async function renderShare(root: HTMLElement, linkKey: string) {
 
   root.innerHTML = `
     <h2 class="section-title">Share a date you see</h2>
-    <p class="muted small">Tap the open days you see on the official calendar, then share. Everyone watching gets a Telegram alert right away.</p>
+    <p class="muted small">Tap the open days you see on the official calendar, then share. Everyone watching gets one Telegram message and books it themselves.</p>
     <form id="share-form">
       ${select("post", "Post", POSTS, choice.post)}
       ${select("kind", "Type", APPOINTMENT_KINDS, choice.kind)}

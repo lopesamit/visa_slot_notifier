@@ -28,7 +28,9 @@ Free Telegram alerts when someone shares an open U.S. visa date in India. Never 
 
 Visa Slot Notifier is a free Chrome extension for people booking U.S. visa appointments in India (Mumbai, New Delhi, Chennai, Hyderabad, Kolkata).
 
-When someone checking the official scheduling site sees open OFC or consular dates, they open this extension, pick the post and visa class, tap the open days on a small calendar, and press Share. They can also highlight a date on any page and right-click “Share this date”. Everyone whose filters match gets one Telegram message right away. Many people can share the same date; you still get only one alert.
+When someone checking the official scheduling site sees open OFC or consular dates, they open this extension, pick the post and visa class, tap the open days on a small calendar, and press Share. They can also highlight a date on any page and right-click “Share this date”. Everyone whose filters match gets one Telegram message. Many people can share the same date; you still get only one alert.
+
+This extension does not find appointments and does not book them. Check the official site and book it yourself. A date may already be gone. We are new, so you may get few alerts at first: a message is sent only when a person shares a date they can see right then.
 
 What it does
 • Connects this browser to Telegram so you can choose posts, visa class, OFC or consular, and an optional date range

@@ -335,3 +335,9 @@ legend {
   color: var(--kofi);
   font-weight: 650;
 }
+
+.foot #watching:not(:empty) {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+}

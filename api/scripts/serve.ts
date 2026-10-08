@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage } from "node:http";
 import admin from "../functions/admin";
 import share from "../functions/share";
+import stats from "../functions/stats";
 import subscription from "../functions/subscription";
 import { withCors } from "../src/cors";
 
@@ -13,6 +14,7 @@ type Handler = (request: Request, context?: { ip?: string }) => Promise<Response
 const routes: Record<string, Handler> = {
   "/api/admin": admin,
   "/api/share": share,
+  "/api/stats": stats,
   "/api/subscription": subscription,
 };
 
@@ -45,7 +47,11 @@ const toHeaders = (req: IncomingMessage) =>
 createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://localhost:${port}`);
   const route = routes[url.pathname];
-  if (!route || (req.method !== "POST" && req.method !== "OPTIONS")) {
+  const methodOk =
+    req.method === "POST" ||
+    req.method === "OPTIONS" ||
+    (req.method === "GET" && url.pathname === "/api/stats");
+  if (!route || !methodOk) {
     res.writeHead(404).end("Not found");
     return;
   }

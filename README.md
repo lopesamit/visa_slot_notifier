@@ -1,8 +1,9 @@
 # Visa Slot Notifier
 
-A free, community-powered U.S. visa appointment tracker. People who see an
-opening on the official scheduling site share it from the extension, and anyone
-whose filters match gets a direct Telegram message.
+A free Telegram alert when someone shares a U.S. visa appointment date they
+saw. People looking at the official scheduling site share it from the extension,
+and anyone whose filters match gets one message. Check the official site and
+book it yourself. We are new, so alerts may be few at first.
 
 Not affiliated with any U.S. government agency, embassy, consulate, or visa
 scheduling provider. Alerts are informational: people book on the official site

@@ -85,7 +85,9 @@ export const welcomeText = () =>
     "<b>Visa Slot Notifier</b>",
     "Free alerts when someone shares an open U.S. visa appointment date that matches what you are watching.",
     "",
-    "We never ask for your visa-site login, and we never book for you. You book on the official site yourself.",
+    "We are new, so you may get few messages at first. One goes out only when a person shares a date they can see right then.",
+    "",
+    "We never ask for your visa-site login, and we never book for you. Check the official site and book it yourself.",
     "",
     "Start by choosing your filters below.",
   ].join("\n");
@@ -95,13 +97,17 @@ export const linkedText = () =>
     "<b>Connected to your Chrome extension</b>",
     "Alerts for this browser will come to this chat. You can choose filters in the extension popup or with the buttons below.",
     "",
-    "We never ask for your visa-site login, and we never book for you.",
+    "We are new, so you may get few messages at first. One goes out only when a person shares a date they can see right then.",
+    "",
+    "We never ask for your visa-site login, and we never book for you. Check the official site and book it yourself.",
   ].join("\n");
 
 export const helpText = () =>
   [
     "<b>How this works</b>",
-    "When someone sees an open date on the official scheduling site, they share it with one click in our Chrome extension. When a date matches your filters, you get one message, however many people shared it.",
+    "When someone sees an open date on the official scheduling site, they share it from our Chrome extension. When a date matches your filters, you get one message, however many people shared it. Check the official site and book it yourself. It may already be gone.",
+    "",
+    "We are new, so you may get few messages at first.",
     "",
     "/filters choose posts, visa classes, and OFC or consular",
     "/dates 2027-01-01 2027-03-31 limit to a date range (/dates any to clear)",
