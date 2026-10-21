@@ -5,6 +5,9 @@ saw. People looking at the official scheduling site share it from the extension,
 and anyone whose filters match gets one message. Check the official site and
 book it yourself. We are new, so alerts may be few at first.
 
+The extension is in the Chrome Web Store:
+https://chromewebstore.google.com/detail/visa-slot-notifier/cjdopfejedjhknfgnjjnmmpfkgdecnma
+
 Not affiliated with any U.S. government agency, embassy, consulate, or visa
 scheduling provider. Alerts are informational: people book on the official site
 themselves.

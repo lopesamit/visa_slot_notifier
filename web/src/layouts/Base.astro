@@ -1,5 +1,5 @@
 ---
-import { BOT_USERNAME } from "@visa-slot/shared";
+import { BOT_USERNAME, STORE_URL } from "@visa-slot/shared";
 import { CLOUDFLARE_BEACON_TOKEN, kofiUrl, showDonate, siteName } from "../site";
 import "../styles/global.css";
 
@@ -80,6 +80,7 @@ const showAnalytics = import.meta.env.PROD;
             <a href="/share-a-date">Share a date</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
+            <a href={STORE_URL} target="_blank" rel="noopener noreferrer">Add to Chrome</a>
           </nav>
         </div>
         <div class="footer-word" aria-hidden="true">Free, always.</div>

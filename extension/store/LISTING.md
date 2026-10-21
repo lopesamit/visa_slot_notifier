@@ -1,5 +1,7 @@
 # Chrome Web Store listing
 
+Live listing: https://chromewebstore.google.com/detail/visa-slot-notifier/cjdopfejedjhknfgnjjnmmpfkgdecnma
+
 Copy these fields into https://chrome.google.com/webstore/devconsole after the zip uploads.
 
 Upload zip: `extension/.output/visa-slot-notifier-0.2.1-chrome.zip`  

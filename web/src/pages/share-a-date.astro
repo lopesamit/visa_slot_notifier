@@ -1,5 +1,5 @@
 ---
-import { BOT_USERNAME } from "@visa-slot/shared";
+import { BOT_USERNAME, STORE_URL } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
 
 const botUrl = `https://t.me/${BOT_USERNAME}`;
@@ -9,7 +9,7 @@ type Step = { title: string; body: string; image: string; alt: string; width: nu
 const setup: Step[] = [
   {
     title: "Install the extension and pin it",
-    body: "Add <strong>Visa Slot Notifier</strong> to Chrome, Brave, or Edge on a computer. Click the puzzle icon at the top right of the browser, then the pin next to Visa Slot Notifier, so its lime bell is always one click away.",
+    body: `Add <strong><a href="${STORE_URL}" target="_blank" rel="noopener noreferrer">Visa Slot Notifier</a></strong> to Chrome, Brave, or Edge on a computer. Click the puzzle icon at the top right of the browser, then the pin next to Visa Slot Notifier, so its lime bell is always one click away.`,
     image: "/guide/pin.png",
     alt: "The browser's extensions menu with the pin button next to Visa Slot Notifier highlighted.",
     width: 1440,

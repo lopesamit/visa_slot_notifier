@@ -1,5 +1,5 @@
 ---
-import { BOT_USERNAME } from "@visa-slot/shared";
+import { BOT_USERNAME, STORE_URL } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
 
 const botUrl = `https://t.me/${BOT_USERNAME}`;
@@ -50,7 +50,7 @@ const never = [
           <li class="scroll-reveal">
             <h3>Add the Chrome extension</h3>
             <p>
-              Install <strong>Visa Slot Notifier</strong> from the Chrome Web Store. It lets
+              Install <strong><a href={STORE_URL} target="_blank" rel="noopener noreferrer">Visa Slot Notifier</a></strong> from the Chrome Web Store. It lets
               you manage alerts from your browser and share dates you see. It never runs
               on the official scheduling site.
             </p>

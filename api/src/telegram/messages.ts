@@ -3,6 +3,7 @@ import {
   DONATIONS_ENABLED,
   POSTS,
   SITE_URL,
+  STORE_URL,
   VISA_CLASSES,
   type Slot,
 } from "@visa-slot/shared";
@@ -119,6 +120,7 @@ export const helpText = () =>
     DONATIONS_ENABLED
       ? `Alerts are free. Donations never unlock anything: ${SITE_URL}`
       : `Alerts are free: ${SITE_URL}`,
+    `Add the extension: ${STORE_URL}`,
   ].join("\n");
 
 export const datesUsageText = () =>

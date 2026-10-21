@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { withCors } from "./cors";
 
 const handler = withCors(async () => new Response("{}", { status: 200, headers: { "content-type": "application/json" } }));
-const EXTENSION = "chrome-extension://nilgamnmhfnmklfaildcbaldpldbhnbd";
+const EXTENSION = "chrome-extension://cjdopfejedjhknfgnjjnmmpfkgdecnma";
 
 const request = (method: string, origin?: string) =>
   new Request("https://freevisaslotnotifier.com/api/share", {

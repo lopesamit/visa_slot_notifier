@@ -1,5 +1,5 @@
 ---
-import { APPOINTMENT_KINDS, BOT_USERNAME, POSTS, VISA_CLASSES } from "@visa-slot/shared";
+import { APPOINTMENT_KINDS, BOT_USERNAME, POSTS, STORE_URL, VISA_CLASSES } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
 import { kofiUrl, showDonate, siteName } from "../site";
 
@@ -67,6 +67,7 @@ const faqs = [
               Get alerts on Telegram
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </a>
+            <a class="button ghost" href={STORE_URL} target="_blank" rel="noopener noreferrer">Add to Chrome</a>
             <a class="button ghost" href="/how-it-works">How it works</a>
           </div>
           <ul class="promises reveal d3">
@@ -125,7 +126,7 @@ const faqs = [
           </li>
           <li class="step scroll-reveal">
             <h3>Someone shares an opening</h3>
-            <p>A person checking the official site taps the open dates they see in our Chrome extension and shares them. <a href="/share-a-date">Here is how</a>.</p>
+            <p>A person checking the official site taps the open dates they see in our <a href={STORE_URL} target="_blank" rel="noopener noreferrer">Chrome extension</a> and shares them. <a href="/share-a-date">Here is how</a>.</p>
           </li>
           <li class="step scroll-reveal">
             <h3>You get one message</h3>

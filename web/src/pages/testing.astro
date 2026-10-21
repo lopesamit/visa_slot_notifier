@@ -1,5 +1,5 @@
 ---
-import { BOT_USERNAME } from "@visa-slot/shared";
+import { BOT_USERNAME, STORE_URL } from "@visa-slot/shared";
 import Base from "../layouts/Base.astro";
 import pkg from "../../../extension/package.json";
 
@@ -9,17 +9,18 @@ const zipUrl = "/testing/visa-slot-notifier.zip";
 
 <Base
   title="Early tester install"
-  description="Private install page for people helping test Visa Slot Notifier before it is in the Chrome Web Store."
+  description="Private page for trying an unpublished Visa Slot Notifier build. The public extension is in the Chrome Web Store."
   noindex
 >
   <main>
     <section class="page-hero">
       <div class="wrap">
         <span class="kicker reveal">Private tester page</span>
-        <h1 class="reveal d1">Help try the extension <em>before</em> the store.</h1>
+        <h1 class="reveal d1">Try a build <em>before</em> it is in the store.</h1>
         <p class="lede reveal d2">
-          This page is not linked from the rest of the site. Chrome does not let
-          websites install extensions, so you download a zip and load it yourself.
+          The public extension is <a href={STORE_URL} target="_blank" rel="noopener noreferrer">in the Chrome Web Store</a>.
+          This page is not linked from the rest of the site. It is only for a build that is not published yet.
+          Chrome does not let websites install extensions, so you download a zip and load it yourself.
           Version {pkg.version}. It talks to the live site, never asks for your
           visa-site login, and never books anything.
         </p>

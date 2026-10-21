@@ -1,5 +1,8 @@
 export const SITE_URL = "https://freevisaslotnotifier.com";
 export const BOT_USERNAME = "VisaSlotNotifierForAllFreeBot";
+/** Public Chrome Web Store listing. Query parameters such as hl and authuser are left off. */
+export const STORE_URL =
+  "https://chromewebstore.google.com/detail/visa-slot-notifier/cjdopfejedjhknfgnjjnmmpfkgdecnma";
 export const KOFI_URL = "https://ko-fi.com/visasolthelper";
 /** Shows the Ko-fi link on the site, popup, and bot. Off until the service has earned trust. */
 export const DONATIONS_ENABLED = false;
